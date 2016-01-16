@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Why use fragment？ | 昆明鱼</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="针对这个问题，在网上搜索了下，有以下一些看法：
+
+1、fragments are more reusable than custom views.
+
+作者认为，fragment能够封装单靠view无法处理的事。自定义控件无法处理跨activity交互等事件，还是需要靠activity来完成，这会增加custom views 和activity的耦合。不利于复用。而fragment可以封装更多的东西">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why use fragment？">
+<meta property="og:url" content="http://kmfish.net/2014/09/21/Why use fragment/index.html">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="针对这个问题，在网上搜索了下，有以下一些看法：
+
+1、fragments are more reusable than custom views.
+
+作者认为，fragment能够封装单靠view无法处理的事。自定义控件无法处理跨activity交互等事件，还是需要靠activity来完成，这会增加custom views 和activity的耦合。不利于复用。而fragment可以封装更多的东西">
+<meta property="og:updated_time" content="2016-01-16T15:18:39.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Why use fragment？">
+<meta name="twitter:description" content="针对这个问题，在网上搜索了下，有以下一些看法：
+
+1、fragments are more reusable than custom views.
+
+作者认为，fragment能够封装单靠view无法处理的事。自定义控件无法处理跨activity交互等事件，还是需要靠activity来完成，这会增加custom views 和activity的耦合。不利于复用。而fragment可以封装更多的东西">
+  
+    <link rel="alternate" href="/atom.xml" title="昆明鱼" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">昆明鱼</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kmfish.net"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Why use fragment" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/21/Why use fragment/" class="article-date">
+  <time datetime="2014-09-21T13:49:13.000Z" itemprop="datePublished">2014-09-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Why use fragment？
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>针对这个问题，在网上搜索了下，有以下一些看法：</p>
+<blockquote>
+<p>1、fragments are more reusable than custom views.</p>
+</blockquote>
+<p>作者认为，fragment能够封装单靠view无法处理的事。自定义控件无法处理跨activity交互等事件，还是需要靠activity来完成，这会增加custom views 和activity的耦合。不利于复用。而fragment可以封装更多的东西，包括AsyncTask，file and database access等。</p>
+<blockquote>
+<p>2、the main reason to use Fragments are for the backstack and lifecycle<br>features. Otherwise, custom views are more light weight, simpler to<br>implement, and have the advantage that they can be nested.<br><a href="http://stackoverflow.com/questions/8617696/what-is-the-benefit-of-using-fragments-in-android-rather-than-views?lq=1" target="_blank" rel="external">see here</a></p>
+</blockquote>
+<p>主要原因是fragment提供了backstack支持界面状态的回退，以及生命周期特性。（在SDK 17 以后fragment也支持嵌套了）</p>
+<ul>
+<li><p>过去的模式：<br>如果实现官方文档中的那个例子，手机版上是两个activity（列表和详情），pad版上则在同一activity下了。在fragment推出之前，我们之前的项目里也有实现过类似的需求。两个界面分别为 listView 和 detailView，则activityA里会同时持有两个view，当判断为手机版，则detailview会hide；当为pad版时，才会显示detailView。然后activityA里就会同时包含对两个的view的控制代码，当然也可以提出一个viewController来包含控制代码，activityA来引用viewController。这里的这个ViewController（或viewManager）就类似fragment。按照MVC的思想，activity其实就扮演了Controller的角色（或者再自己封装一个viewManager，但与系统的交互还是由activity来负责管理的。）</p>
+</li>
+<li><p>fragment的优点：<br>fragment同样有自己的生命周期，不用刻意担心内存泄漏的问题，而且fragment还拥有切换保留（retain）机制，可以在状态切换期间保持状态不变（如后台任务等）。另外，由于框架已经实现了对fragment的生命周期管理，所以开发时也不必在activity的生命周期回调事件代码中加入对各个组件的管理代码，代码整体更加简洁清晰。使用fragment，可以帮助开发者省下许多开发和维护的工作量。</p>
+</li>
+<li><p>自己的理解：<br>通过查看fragment提供的接口，可以发现非常类似activity的接口，可以认为fragment is a “small activity“，所以相对于使用自定义view+ 控制器的方式，使用fragment可以封装更多的和系统的交互，提供更高级的封装。自定义view仅是在视图层面的封装（能够控制view的show，hide，布局的变化等），但fragment可以提供更高层面的控制（与activity交互，状态栈回退，独立的生命周期管理）。旧的方式依然需要依赖和activity的配合才能实现这些需求（如和其他activity的交互 startActiviyForResult，就可以直接在fragment里去调用了）。从整体上看，相当于将activity和可复用组件进一步解耦了，使得组件的复用性和封装性更好。activity不用再去向内部组件通知各项事件。而组件自身封装得更加完备，内部就处理了生命周期事件以及其他与系统的交互事件。在不同activity之间的复用变得更加容易灵活。从代码层面上看，activity里的代码就会少了许多，而各fragment的代码都由自己维护了。代码结构更加清晰简洁，大大降低了维护代价，也提高了项目代码的可读性。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kmfish.net/2014/09/21/Why use fragment/" data-id="cijha8k1y000314ofdxmqstxa" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2015/08/08/组合还是继承/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          组合还是继承
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/09/08/android-camera-preivew-problem/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">android camera 摄像头预览画面变形</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/01/16/MultiTypeListViewAdapter/">MultiTypeListViewAdapter Android ListView 多type的Adapter封装</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/22/Can-update-view-in-background-thread/">android 子线程中更新界面？被ProgressBar给迷惑了</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/31/Get-gopro-video-stream/">如何获取 Gopro 视频流</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/08/组合还是继承/">组合还是继承</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/21/Why use fragment/">Why use fragment？</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 kmfish<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+  </div>
+</body>
+</html>

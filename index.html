@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Hexo</title>
+  <title>昆明鱼</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
+  <meta name="description" content="一条走在程序路上的小鱼儿">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
+<meta property="og:title" content="昆明鱼">
 <meta property="og:url" content="http://kmfish.net/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="一条走在程序路上的小鱼儿">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
-<meta name="twitter:description">
+<meta name="twitter:title" content="昆明鱼">
+<meta name="twitter:description" content="一条走在程序路上的小鱼儿">
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternate" href="/atom.xml" title="昆明鱼" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -34,7 +34,7 @@
   <div id="header-outer" class="outer">
     <div id="header-title" class="inner">
       <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
+        <a href="/" id="logo">昆明鱼</a>
       </h1>
       
     </div>
@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-MultiTypeListViewAdapter" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/01/16/hello-world/" class="article-date">
-  <time datetime="2016-01-16T14:15:02.896Z" itemprop="datePublished">2016-01-16</time>
+    <a href="/2016/01/16/MultiTypeListViewAdapter/" class="article-date">
+  <time datetime="2016-01-16T14:41:44.402Z" itemprop="datePublished">2016-01-16</time>
 </a>
     
   </div>
@@ -76,7 +76,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/16/hello-world/">Hello World</a>
+      <a class="article-title" href="/2016/01/16/MultiTypeListViewAdapter/">MultiTypeListViewAdapter Android ListView 多type的Adapter封装</a>
     </h1>
   
 
@@ -84,22 +84,303 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server"><a href="#Run_server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files"><a href="#Generate_static_files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites"><a href="#Deploy_to_remote_sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>标签（空格分隔）： Android ListView Adapter ViewType</p>
+<hr>
+<h2 id="MultiTypeListViewAdapter__u662F_u4EC0_u4E48_uFF1F"><a href="#MultiTypeListViewAdapter__u662F_u4EC0_u4E48_uFF1F" class="headerlink" title="MultiTypeListViewAdapter 是什么？"></a><a href="https://github.com/kmfish/MultiTypeListViewAdapter" target="_blank" rel="external">MultiTypeListViewAdapter</a> 是什么？</h2><p>MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编程模式，通过对每种type统一接口，利用多态的方式，将type的实现从Adapter中抽离出来。Adapter只需面向统一接口，所以可以提供一个通用实现，实现代码不再变动。而会变动的每个type对应的item实现，则由使用者自己去实现。对扩展开放，对修改封闭。</p>
+<p>同时，由于每个type的item均被抽离出来了。相当于复用的粒度为每个type item，可以根据需要，动态地选择合适的item去添加到adapter中。提高了代码复用，每个人编写维护好自己的item即可，避免了多人合作时都去修改Adapter，容易造成冲突。</p>
+<p>另外，由于ViewHolder 模式的规范，MultiTypeListViewAdapter也同时封装了ViewHolder模式。</p>
+<hr>
+<h2 id="u5E38_u89C1_u7684ListView_Adapter__u5B9E_u73B0"><a href="#u5E38_u89C1_u7684ListView_Adapter__u5B9E_u73B0" class="headerlink" title="常见的ListView Adapter 实现"></a>常见的ListView Adapter 实现</h2><p>先看一下常见的ListAdapter 实现，分为单个type和多type两种情况。</p>
+<h3 id="1_u3001_u5355Type_u7684Adapter"><a href="#1_u3001_u5355Type_u7684Adapter" class="headerlink" title="1、单Type的Adapter"></a>1、单Type的Adapter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListAdapter</span> <span class="title">extend</span> <span class="title">BaseAdapter</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; contents = <span class="keyword">new</span> ArrayList();</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, View convertView, ViewGroup parent)</span> </span>&#123;</span><br><span class="line">            String item = getItem(position);</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">null</span> == item) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"list item is never null. pos:"</span> + position);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                ViewHolder holder;</span><br><span class="line">                <span class="keyword">if</span>(<span class="keyword">null</span> == convertView) &#123;</span><br><span class="line">                    holder = createViewHolder(parent);</span><br><span class="line">                    convertView = holder.itemView;</span><br><span class="line">                    convertView.setTag(holder);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    holder = (ViewHolder)convertView.getTag();</span><br><span class="line">                &#125;</span><br><span class="line">   </span><br><span class="line">                item.updateHolder(holder, position);</span><br><span class="line">                <span class="keyword">return</span> convertView;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">private</span> ViewHolder <span class="title">createViewHolder</span><span class="params">(ViewGroup parent)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// create item view from layout xml</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateHolder</span><span class="params">(ViewHolder holder, String item)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// update item view</span></span><br><span class="line">        holder.text.setText(item);</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line">        TextView text;</span><br><span class="line">       </span><br><span class="line">        ViewHolder(View itemView) &#123;</span><br><span class="line">            text = (TextView)itemView.findViewById(R.id.text);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应该是挺常见的写法吧，继续往下。</p>
+<h3 id="2_u3001_u591Atype_u7684adapter"><a href="#2_u3001_u591Atype_u7684adapter" class="headerlink" title="2、多type的adapter"></a>2、多type的adapter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListAdapter</span> <span class="title">extend</span> <span class="title">BaseAdapter</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">private</span> List&lt;String&gt; contents = <span class="keyword">new</span> ArrayList();</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (position % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">   </span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getViewTypeCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, View convertView, ViewGroup parent)</span> </span>&#123;</span><br><span class="line">            String item = getItem(position);</span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">null</span> == item) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"list item is never null. pos:"</span> + position);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                ViewHolder holder;</span><br><span class="line">                <span class="keyword">if</span>(<span class="keyword">null</span> == convertView) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (getItemViewType(position) == <span class="number">0</span>) &#123;</span><br><span class="line">                        holder = createViewHolder(parent);   </span><br><span class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (getItemViewType(position) == <span class="number">1</span>) &#123;</span><br><span class="line">                        holder = createViewHolder1(parent);</span><br><span class="line">                    &#125;</span><br><span class="line">                   </span><br><span class="line">                    convertView = holder.itemView;</span><br><span class="line">                    convertView.setTag(holder);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    holder = (ViewHolder)convertView.getTag();</span><br><span class="line">                &#125;</span><br><span class="line">               </span><br><span class="line">                <span class="keyword">if</span> (getItemViewType(position) == <span class="number">0</span>) &#123;</span><br><span class="line">                    item.updateHolder(holder, position);</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (getItemViewType(position) == <span class="number">1</span>) &#123;</span><br><span class="line">                    item.updateHolder1(holder, position);</span><br><span class="line">                &#125;</span><br><span class="line">               </span><br><span class="line">                <span class="keyword">return</span> convertView;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">private</span> ViewHolder <span class="title">createViewHolder</span><span class="params">(ViewGroup parent)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// create item view from layout xml</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createViewHolder1</span><span class="params">(ViewGroup parent)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// create item view from layout xml</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateHolder</span><span class="params">(ViewHolder holder, String item)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// update item view</span></span><br><span class="line">        holder.text.setText(item);</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateHolder1</span><span class="params">(ViewHolder1 holder, String item)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// update item view</span></span><br><span class="line">        holder.text.setText(item);</span><br><span class="line">        holder.img.setImageResoure(R.drawable.img);</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line">        TextView text;</span><br><span class="line">       </span><br><span class="line">        ViewHolder(View itemView) &#123;</span><br><span class="line">            text = (TextView)itemView.findViewById(R.id.text);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder1</span> </span>&#123;</span><br><span class="line">        TextView text;</span><br><span class="line">        ImageView img;</span><br><span class="line">       </span><br><span class="line">        ViewHolder(View itemView) &#123;</span><br><span class="line">            text = (TextView)itemView.findViewById(R.id.text);</span><br><span class="line">            img = (ImageView)itemView.findViewById(R.id.img);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看到这里，是否感觉这个Adapter的getView（）开始有些让人不舒服了呢。若type再进一步增加，难不成还得继续if/else下去，adapter变得又臭又长。估计往后下去，就再没人愿意维护了。而且，这个Adapter的这一堆代码还得到处重复写下去，每个有listView的地方，都得配套一个adapter。针对这个坑，我设计了MultiTypeListViewAdapter来解决。希望能帮助到有需要的程序猿们~</p>
+<hr>
+<h2 id="u4F7F_u7528_MultiTypeListViewAdapter"><a href="#u4F7F_u7528_MultiTypeListViewAdapter" class="headerlink" title="使用 MultiTypeListViewAdapter"></a>使用 MultiTypeListViewAdapter</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ListView listView;</span><br><span class="line">    <span class="keyword">private</span> MultiTypeArrayAdapter adapter;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ITEM_TYPE_1 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ITEM_TYPE_2 = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ITEM_TYPE_COUNT = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        listView = (ListView) findViewById(R.id.listview);</span><br><span class="line">        adapter = <span class="keyword">new</span> MultiTypeArrayAdapter(ITEM_TYPE_COUNT);</span><br><span class="line">        listView.setAdapter(adapter);</span><br><span class="line"></span><br><span class="line">        setupAdapter();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setupAdapter</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        adapter.setTypeCount(ITEM_TYPE_COUNT);</span><br><span class="line">        LineListItem1 item1 = <span class="keyword">new</span> LineListItem1(<span class="keyword">this</span>, ITEM_TYPE_1, <span class="string">"line type 1"</span>);</span><br><span class="line">        LineListItem2 item2 = <span class="keyword">new</span> LineListItem2(<span class="keyword">this</span>, ITEM_TYPE_2, <span class="string">"line type 2"</span>);</span><br><span class="line"></span><br><span class="line">        adapter.setNotifyOnChange(<span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, len = <span class="number">50</span>; i &lt; len; i++) &#123;</span><br><span class="line">            adapter.addItem( i  % <span class="number">2</span> == <span class="number">0</span> ? item1 : item2);</span><br><span class="line">        &#125;</span><br><span class="line">        adapter.notifyDataSetChanged();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LineListItem1</span> <span class="keyword">extends</span> <span class="title">BaseListItem</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String line;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LineListItem1</span><span class="params">(Context mContext, <span class="keyword">int</span> viewType, String line)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(mContext, viewType);</span><br><span class="line">        <span class="keyword">this</span>.line = line;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">onGetItemLayoutRes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> R.layout.list_item1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LineViewHolder(itemView);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateHolder</span><span class="params">(ViewHolder holder, <span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">        LineViewHolder h = (LineViewHolder) holder;</span><br><span class="line">        h.text.setText(line + <span class="string">"_"</span> + pos);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">LineViewHolder</span> <span class="keyword">extends</span> <span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        TextView text;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LineViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(itemView);</span><br><span class="line">            text = (TextView) itemView.findViewById(R.id.line_text);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LineListItem2</span> <span class="keyword">extends</span> <span class="title">BaseListItem</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String line;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LineListItem2</span><span class="params">(Context mContext, <span class="keyword">int</span> viewType, String line)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(mContext, viewType);</span><br><span class="line">        <span class="keyword">this</span>.line = line;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">onGetItemLayoutRes</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> R.layout.list_item2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LineViewHolder2(itemView);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateHolder</span><span class="params">(ViewHolder holder, <span class="keyword">int</span> pos)</span> </span>&#123;</span><br><span class="line">        LineViewHolder2 h = (LineViewHolder2) holder;</span><br><span class="line">        h.text.setText(line + <span class="string">"_"</span> + pos);</span><br><span class="line">        h.img.setImageResource(R.drawable.icon_git);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">LineViewHolder2</span> <span class="keyword">extends</span> <span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line">        ImageView img;</span><br><span class="line">        TextView text;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LineViewHolder2</span><span class="params">(View itemView)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(itemView);</span><br><span class="line">            img = (ImageView) itemView.findViewById(R.id.thumb);</span><br><span class="line">            text = (TextView) itemView.findViewById(R.id.name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，使用MultiTypeListViewAdapter之后，实现多type的Adapter变得相当简单了。再也不用面对一堆判断itemType的if/else了。每增加一种type，只需增加一种新的ListItem即可，再也不用去改动Adapter的代码了。</p>
+<p>项目发布在github上了，<a href="https://github.com/kmfish/MultiTypeListViewAdapter" target="_blank" rel="external">MultiTypeListViewAdapter</a>，欢迎fork和交流。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://kmfish.net/2016/01/16/hello-world/" data-id="cijh77vjw0000ewofkkwifvxz" class="article-share-link">Share</a>
+      <a data-url="http://kmfish.net/2016/01/16/MultiTypeListViewAdapter/" data-id="cijh8rkut00002woff7wkjks1" class="article-share-link">Share</a>
       
       
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Can-update-view-in-background-thread" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/09/22/Can-update-view-in-background-thread/" class="article-date">
+  <time datetime="2015-09-22T06:51:37.000Z" itemprop="datePublished">2015-09-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/22/Can-update-view-in-background-thread/">android 子线程中更新界面？被ProgressBar给迷惑了</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在看apidemos的例子RetainedFragement时，看到在Thread中执行了 这么一句<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mProgressBar.setProgress(progress);</span><br></pre></td></tr></table></figure></p>
+<p>且执行正常，progressbar确实一直在更新。<br>顿觉疑惑，View在更新时，会检查当前线程是否是创建view所在的线程（即UI线程），若不一致，则会抛出异常的。<br>in ViewRootImpl.java 中：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">checkThread</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mThread != Thread.currentThread()) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> CalledFromWrongThreadException(</span><br><span class="line">                <span class="string">"Only the original thread that created a view hierarchy can touch its views."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>后来查看了setProgress（）的源码后，才恍然大悟，这个方法内已经处理了子线程里调用的情况了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="annotation">@android</span>.view.<span class="function">RemotableViewMethod</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">setProgress</span><span class="params">(<span class="keyword">int</span> progress)</span> </span>&#123;</span><br><span class="line">        setProgress(progress, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@android</span>.view.<span class="function">RemotableViewMethod</span><br><span class="line">    <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">setProgress</span><span class="params">(<span class="keyword">int</span> progress, <span class="keyword">boolean</span> fromUser)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mIndeterminate) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (progress &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            progress = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (progress &gt; mMax) &#123;</span><br><span class="line">            progress = mMax;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (progress != mProgress) &#123;</span><br><span class="line">            mProgress = progress;</span><br><span class="line">            refreshProgress(R.id.progress, mProgress, fromUser);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">refreshProgress</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> progress, <span class="keyword">boolean</span> fromUser)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mUiThreadId == Thread.currentThread().getId()) &#123;</span><br><span class="line">            doRefreshProgress(id, progress, fromUser, <span class="keyword">true</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (mRefreshProgressRunnable == <span class="keyword">null</span>) &#123;</span><br><span class="line">                mRefreshProgressRunnable = <span class="keyword">new</span> RefreshProgressRunnable();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">final</span> RefreshData rd = RefreshData.obtain(id, progress, fromUser);</span><br><span class="line">            mRefreshData.add(rd);</span><br><span class="line">            <span class="keyword">if</span> (mAttached &amp;&amp; !mRefreshIsPosted) &#123;</span><br><span class="line">                post(mRefreshProgressRunnable);</span><br><span class="line">                mRefreshIsPosted = <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>关键就是refreshProgress（）了，这里处理了若当前线程不是ui thread，则将更新消息post到ui thread中去执行了。而且可以发现这几个方法都是加了同步控制的，是线程安全的，保证了多线程调用也是正常的了。</p>
+<p>真的是“源码之下无秘密“啊。</p>
+<p>p.s：<br>之前一次面试的时候，对方有问到能否在子线程里更新界面？<br>我回到不能，因为会抛出异常。对方接着问，为什么？<br>我就答不上来了，现在的理解是，因为android下的界面更新不是线程安全的，所以要保证在单一线程中同步执行。其他线程要更新UI的话，需要通过handler，Looper消息机制把更新事情pass到UI thread的消息队列中，由UI thread来完成界面的更新绘制。<br>面试官又继续问道，能否在子线程里去更新progressbar的进度呢？<br>我当时回答的是不能，必须通过handler去发消息。但现在看来progressbar的代码后，这个问题的答案其实应该是可以的，因为progressbar自己内部就处理了子线程的更新问题。</p>
+<p>学东西，要能做到知其然，知其所以然。我对知识的掌握层次还太浅了，仅仅停留在会使用工具的层面。平时要多思考，自己给自己提出一些问题（what，why），才能加深对知识的理解。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kmfish.net/2015/09/22/Can-update-view-in-background-thread/" data-id="cijha8jzp000014ofolwxnp86" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Get-gopro-video-stream" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/31/Get-gopro-video-stream/" class="article-date">
+  <time datetime="2015-08-31T07:28:34.000Z" itemprop="datePublished">2015-08-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/31/Get-gopro-video-stream/">如何获取 Gopro 视频流</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前言：最近的工作在研究gopro的视频流如何获取，通过搜索资料，以及对gopro app的抓包分析，得出了以下经验。这次的分析过程也体会到抓包分析的好处，以后还应进一步学习如何用好抓包工具。</p>
+<h2 id="u5982_u4F55_u83B7_u53D6Gopro_u7684_u89C6_u9891_u6D41"><a href="#u5982_u4F55_u83B7_u53D6Gopro_u7684_u89C6_u9891_u6D41" class="headerlink" title="如何获取Gopro的视频流"></a>如何获取Gopro的视频流</h2><p>以下的这些url会随gopro的型号版本而有所不同，需要自己抓包分析确定。</p>
+<p>gopro提供了wifi和hdmi的视频输出，目前研究的是wifi输出。<br>通过对gopro app抓包分析，和网上搜索的资料，整理出以下方法：</p>
+<ol>
+<li>先通过gopro app完成和gopro的蓝牙配对，配置好wifi热点，并开启wifi热点；</li>
+<li>手机切换至gopro的热点网络，在 udp://:8554 上开启监听。</li>
+<li>发送http get request( <a href="http://10.5.5.9/gp/gpExec?p1=gpStreamA9&amp;c1=restart)，gopro即开始向手机的" target="_blank" rel="external">http://10.5.5.9/gp/gpExec?p1=gpStreamA9&amp;c1=restart)，gopro即开始向手机的</a> 8554 端口发送数据。手机即可在udp 8554端口收到数据。</li>
+<li>通过抓包分析，gopro app会定期（1次/s）发送心跳请求，维持连接。<br>udp :　“<em>GPHD</em>:1:0:2:0”  0.3次/s  // 若无此心跳，则视频流几秒后会中断<br>http : GET /gp/gpControl/status   2次/s  //若无此心跳，则gopro的wifi热点几分钟后会关闭</li>
+</ol>
+<p>备注：<br>抓包分析出gopro通信的一些url，响应均为json<br><strong>GET /bacpac/cv</strong> 返回gopro热点名称<br><strong>GET /gp/gpControl</strong> 返回gopro所有设置项的当前状态，可选项信息，以及所有支持的url command<br>如： <strong>/gp/gpControl/command/wireless/pair/cancel</strong> 如果已经配对成功则取消配对</p>
+<p>其他包<br>gopro app 会发送mdns请求，获取gopro的ip地址及mac地址等信息；<br>gopro app 每次进入preview界面时，会向全网发送WOL包，WOL（Wake on Lan）局域网唤醒，远程唤醒设备。</p>
+<h2 id="u89C6_u9891_u6D41_u683C_u5F0F_uFF0C_u7801_u7387"><a href="#u89C6_u9891_u6D41_u683C_u5F0F_uFF0C_u7801_u7387" class="headerlink" title="视频流格式，码率"></a>视频流格式，码率</h2><p>h.264，aac，mpegts流<br>录制视频：<br>码率范围：20mbps~60mbps<br><a href="http://zh.gopro.com/support/articles/hero4-black-recording-time-in-each-video-setting" target="_blank" rel="external">http://zh.gopro.com/support/articles/hero4-black-recording-time-in-each-video-setting</a></p>
+<p>实时预览下码率为：<br>1mbps，帧率为30fps</p>
+<h2 id="u4E0A_u4F20_u89C6_u9891"><a href="#u4E0A_u4F20_u89C6_u9891" class="headerlink" title="上传视频"></a>上传视频</h2><p>1、wifi连接gopro，可以通过移动网络传输视频流<br>ios下，可以在连接wifi热点的同时，其他数据通信自动走移动网络通道完成。<br>android，5.0提供了新的网络api，可以给app指定使用特定网络。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kmfish.net/2015/08/31/Get-gopro-video-stream/" data-id="cijha8k24000414ofkg4e4xni" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-组合还是继承" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/08/08/组合还是继承/" class="article-date">
+  <time datetime="2015-08-08T13:59:37.000Z" itemprop="datePublished">2015-08-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/08/组合还是继承/">组合还是继承</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如题，每天在“面向对象”的我们，也常常遇到这个选择吧。刚好看书书读到这个话题，就记录下阅读的理解。</p>
+<blockquote>
+<p>继承要慎用，其使用场合仅限于你确信使用该技术有效的情况。一个判断方法是，问一问自己是否需要从新类向基类进行向上转型。如果是必须的，则继承是必要的。反之则应该好好考虑是否需要继承。<br>——《java编程思想 第四版》 p140</p>
+<p>复合优于继承 与方法调用不同的是，继承打破了封装性。换句话说，子类依赖于其超类中特定功能的实现细节。</p>
+<p>只有当子类真正是超类的子类型时，才适合用继承。换句话说，对于两个类A和B，只有当两者之间确实存在“is-a”关系的时候，类B才应该继续类A。</p>
+<p>为了避免这种脆弱性，可以用复合和转发机制来代替继承，尤其是当存在适当的接口可以实现包装类的时候。包装类不仅比子类更健壮，而且功能也更加强大。</p>
+<p>——《Effective Java》 item.16</p>
+</blockquote>
+<p>在平时工作过程中，我自己也是更多选择组合而不是继承。但也没有个明确清晰的判断标准。和同事交流时，虽然也推荐多用组合，但也说不出个具体的缘由。平时主要是开发android app，在UI部分的代码里，自己也是大量使用组合，譬如view的复用，一些逻辑部分也是可以通过建一个xxxController，xxxManager来复用。减少Activity，Fragment内的代码量。</p>
+<p>之前遇到过项目里的一个情形，几个类似布局的页面，实现是共同继承了一个基类。但这个基类并没有任何地方直接引用到，即项目内没有子类向上转型的地方。我认为仅仅是为了代码复用，是完全不需要继承的，把代码提到一个新类中，组合使用即可。后来这些页面之间由于需求问题，开始有更多的地方不同了，如果是在继承的情况下，改动起来反而更加复杂。因为不能轻易的去修改基类，可能会影响到其他页面。组合可以更灵活，我可以有选择的复用共同的部分，而自己继续写不同的地方，不会一股脑的继承了所有基类的细节，不用去考虑基类里的具体细节。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kmfish.net/2015/08/08/组合还是继承/" data-id="cijh970xs0000vkofxzigjqyc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Why use fragment" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/09/21/Why use fragment/" class="article-date">
+  <time datetime="2014-09-21T13:49:13.000Z" itemprop="datePublished">2014-09-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/09/21/Why use fragment/">Why use fragment？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>针对这个问题，在网上搜索了下，有以下一些看法：</p>
+<blockquote>
+<p>1、fragments are more reusable than custom views.</p>
+</blockquote>
+<p>作者认为，fragment能够封装单靠view无法处理的事。自定义控件无法处理跨activity交互等事件，还是需要靠activity来完成，这会增加custom views 和activity的耦合。不利于复用。而fragment可以封装更多的东西，包括AsyncTask，file and database access等。</p>
+<blockquote>
+<p>2、the main reason to use Fragments are for the backstack and lifecycle<br>features. Otherwise, custom views are more light weight, simpler to<br>implement, and have the advantage that they can be nested.<br><a href="http://stackoverflow.com/questions/8617696/what-is-the-benefit-of-using-fragments-in-android-rather-than-views?lq=1" target="_blank" rel="external">see here</a></p>
+</blockquote>
+<p>主要原因是fragment提供了backstack支持界面状态的回退，以及生命周期特性。（在SDK 17 以后fragment也支持嵌套了）</p>
+<ul>
+<li><p>过去的模式：<br>如果实现官方文档中的那个例子，手机版上是两个activity（列表和详情），pad版上则在同一activity下了。在fragment推出之前，我们之前的项目里也有实现过类似的需求。两个界面分别为 listView 和 detailView，则activityA里会同时持有两个view，当判断为手机版，则detailview会hide；当为pad版时，才会显示detailView。然后activityA里就会同时包含对两个的view的控制代码，当然也可以提出一个viewController来包含控制代码，activityA来引用viewController。这里的这个ViewController（或viewManager）就类似fragment。按照MVC的思想，activity其实就扮演了Controller的角色（或者再自己封装一个viewManager，但与系统的交互还是由activity来负责管理的。）</p>
+</li>
+<li><p>fragment的优点：<br>fragment同样有自己的生命周期，不用刻意担心内存泄漏的问题，而且fragment还拥有切换保留（retain）机制，可以在状态切换期间保持状态不变（如后台任务等）。另外，由于框架已经实现了对fragment的生命周期管理，所以开发时也不必在activity的生命周期回调事件代码中加入对各个组件的管理代码，代码整体更加简洁清晰。使用fragment，可以帮助开发者省下许多开发和维护的工作量。</p>
+</li>
+<li><p>自己的理解：<br>通过查看fragment提供的接口，可以发现非常类似activity的接口，可以认为fragment is a “small activity“，所以相对于使用自定义view+ 控制器的方式，使用fragment可以封装更多的和系统的交互，提供更高级的封装。自定义view仅是在视图层面的封装（能够控制view的show，hide，布局的变化等），但fragment可以提供更高层面的控制（与activity交互，状态栈回退，独立的生命周期管理）。旧的方式依然需要依赖和activity的配合才能实现这些需求（如和其他activity的交互 startActiviyForResult，就可以直接在fragment里去调用了）。从整体上看，相当于将activity和可复用组件进一步解耦了，使得组件的复用性和封装性更好。activity不用再去向内部组件通知各项事件。而组件自身封装得更加完备，内部就处理了生命周期事件以及其他与系统的交互事件。在不同activity之间的复用变得更加容易灵活。从代码层面上看，activity里的代码就会少了许多，而各fragment的代码都由自己维护了。代码结构更加清晰简洁，大大降低了维护代价，也提高了项目代码的可读性。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kmfish.net/2014/09/21/Why use fragment/" data-id="cijha8k1y000314ofdxmqstxa" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-android-camera-preivew-problem" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2013/09/08/android-camera-preivew-problem/" class="article-date">
+  <time datetime="2013-09-08T14:59:37.000Z" itemprop="datePublished">2013-09-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/09/08/android-camera-preivew-problem/">android camera 摄像头预览画面变形</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>问题：最近在处理一下camera的问题，发现在竖屏时预览图像会变形，而横屏时正常。但有的手机则是横竖屏都会变形。</p>
+<p>结果：解决了预览变形的问题，同时支持前后摄像头，预览无变形，拍照生成的jpg照片方向正确。</p>
+<p>环境 ： android studio, xiaomi m1s android4.2 miui v5</p>
+<p>过程：</p>
+<h2 id="1-__u9884_u89C8_preview_u753B_u9762_u53D8_u5F62"><a href="#1-__u9884_u89C8_preview_u753B_u9762_u53D8_u5F62" class="headerlink" title="1. 预览 preview画面变形"></a>1. 预览 preview画面变形</h2><p>以sdk中apidemos里的camera为例，进行修改。先重现下问题，在AndroidManifest.xml中指定了activity 的screenOrientation为landspace，则预览正常。若指定为portrait，则图像会有拉伸变形。</p>
+<h3 id="u627E_u5230_u6B63_u786E_u7684previewsize"><a href="#u627E_u5230_u6B63_u786E_u7684previewsize" class="headerlink" title="找到正确的previewsize"></a>找到正确的previewsize</h3><p>继续看demo代码，mCamera.getParameters().getSupportedPreviewSizes() 可以返回当前设备支持的一组previewSize，例如：</p>
+<blockquote>
+<p>1920x1088 1280x720 800x480 768x432 720x480 640x480 576x432 480x320<br>384x288 352x288 320x240 240x160 176x144</p>
+</blockquote>
+<p>而我们根据我们在界面上需要显示的预览大小，来设置camera的预览大小，即在这一组size中选择一个previewsize，找到高宽比和大小最接近的一个size。通过调用 getOptimalPreviewSize(List<size> sizes, int w, int h) 来进行选择。注意这里的后两个参数，因为<strong>摄像头的预览size是固定的，就那么一组，其高宽比是固定的，且方向也是固定的。</strong><br>对于摄像头来说，都是width是长边，即width &gt; height。 所以camera的ratio计算值总是大于1的。所以当手机在横屏的时候，我们的w&gt;h，调用该方法进行选择是没问题的。但是当竖屏后，w &lt; h了，若还是直接调用该方法，则targetRatio 会小于1，按这个targetRatio去找就找不到合适的size了，那么比例不对预览自然就变形了。所以得在调用的地方进行调整，保证参数w &gt; h。</size></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Size <span class="title">getOptimalPreviewSize</span><span class="params">(List&lt;Size&gt; sizes, <span class="keyword">int</span> w, <span class="keyword">int</span> h)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">double</span> ASPECT_TOLERANCE = <span class="number">0.1</span>;</span><br><span class="line">    <span class="keyword">double</span> targetRatio = (<span class="keyword">double</span>) w / h;</span><br><span class="line">    <span class="keyword">if</span> (sizes == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    Size optimalSize = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">double</span> minDiff = Double.MAX_VALUE;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> targetHeight = h;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Try to find an size match aspect ratio and size</span></span><br><span class="line">    <span class="keyword">for</span> (Size size : sizes) &#123;</span><br><span class="line">        <span class="keyword">double</span> ratio = (<span class="keyword">double</span>) size.width / size.height;</span><br><span class="line">        <span class="keyword">if</span> (Math.abs(ratio - targetRatio) &gt; ASPECT_TOLERANCE) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">if</span> (Math.abs(size.height - targetHeight) &lt; minDiff) &#123;</span><br><span class="line">            optimalSize = size;</span><br><span class="line">            minDiff = Math.abs(size.height - targetHeight);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Cannot find the one match the aspect ratio, ignore the requirement</span></span><br><span class="line">    <span class="keyword">if</span> (optimalSize == <span class="keyword">null</span>) &#123;</span><br><span class="line">        minDiff = Double.MAX_VALUE;</span><br><span class="line">        <span class="keyword">for</span> (Size size : sizes) &#123;</span><br><span class="line">            <span class="keyword">if</span> (Math.abs(size.height - targetHeight) &lt; minDiff) &#123;</span><br><span class="line">                optimalSize = size;</span><br><span class="line">                minDiff = Math.abs(size.height - targetHeight);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> optimalSize;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> <span class="annotation">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">           <span class="comment">// We purposely disregard child measurements because act as a</span></span><br><span class="line">           <span class="comment">// wrapper to a SurfaceView that centers the camera preview instead</span></span><br><span class="line">           <span class="comment">// of stretching it.</span></span><br><span class="line">           <span class="keyword">final</span> <span class="keyword">int</span> width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);</span><br><span class="line">           <span class="keyword">final</span> <span class="keyword">int</span> height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);</span><br><span class="line">           setMeasuredDimension(width, height);</span><br><span class="line"></span><br><span class="line">           <span class="keyword">if</span> (mSupportedPreviewSizes != <span class="keyword">null</span>) &#123;</span><br><span class="line">                mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, Math.max(width, height), Math.min(width, height));</span><br><span class="line"></span><br><span class="line">           &#125;</span><br><span class="line">    ......</span><br></pre></td></tr></table></figure>
+<h3 id="u9009_u62E9_u548Cpreviewsize_u4E00_u81F4_u7684_u6BD4_u4F8B_u6765_u5E03_u5C40surfaceview"><a href="#u9009_u62E9_u548Cpreviewsize_u4E00_u81F4_u7684_u6BD4_u4F8B_u6765_u5E03_u5C40surfaceview" class="headerlink" title="选择和previewsize一致的比例来布局surfaceview"></a>选择和previewsize一致的比例来布局surfaceview</h3><p>当我们选择了合适的previewsize后，还有一个因素会影响到预览画面是否正常。即surfaceview的布局。从demo代码可以知道要想在界面上显示camera预览画面，需要添加一个surfaceview，而我们添加了surfaceview后，就需要对其进行布局，设置其大小，位置。</p>
+<p>经过搜索查资料，<a href="http://stackoverflow.com/questions/7580887/android-camera-stretched-in-landscape-modesomewhat-urgent" target="_blank" rel="external">here</a>这里有人回答了原因。</p>
+<blockquote>
+<p>“The reason is: SurfaceView aspect ratio (width/height) MUST be same as Camera.Size aspect ratio used in preview parameters. And if aspect<br>ratio is not the same, you’ve got stretched image.”</p>
+</blockquote>
+<p> 看到这句话，理解了变形是因为比例错误。surfaceview和cameraSize的比例应该要一致。</p>
+<p>在onlayout中，我们对surfaceview进行了layout，根据指定的surfaceview的高宽来布局。demo中会将surfacevidew居中，看代码是根据宽高比和previewsize的宽高比来对比，选择水平居中或垂直居中。前面已经说过，previewsize的width大于height，所以凡是涉及到宽高比计算的地方，两个size我们都需要保持同样的顺序，都是w &gt; h，或w &lt; h。所以当竖屏时，我们在判断前应该交换presize的w和h，才能正确布局居中surfaceview。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> curOrientation =</span><br><span class="line">            getContext().getResources().getConfiguration().orientation;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (changed &amp;&amp; getChildCount() &gt; <span class="number">0</span> || mLastOrientation != curOrientation) &#123;</span><br><span class="line">        mLastOrientation = curOrientation;</span><br><span class="line">        <span class="keyword">final</span> View child = getChildAt(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> width = r - l;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> height = b - t;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> previewWidth = width;</span><br><span class="line">        <span class="keyword">int</span> previewHeight = height;</span><br><span class="line">        <span class="keyword">if</span> (mPreviewSize != <span class="keyword">null</span>) &#123;</span><br><span class="line">            previewWidth = mPreviewSize.width;</span><br><span class="line">            previewHeight = mPreviewSize.height;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (curOrientation == Configuration.ORIENTATION_PORTRAIT) &#123;</span><br><span class="line">                previewWidth = mPreviewSize.height;</span><br><span class="line">                previewHeight = mPreviewSize.width;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Center the child SurfaceView within the parent.</span></span><br><span class="line">        <span class="keyword">if</span> (width * previewHeight &gt; height * previewWidth) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> scaledChildWidth = previewWidth * height / previewHeight;</span><br><span class="line">            child.layout((width - scaledChildWidth) / <span class="number">2</span>, <span class="number">0</span>,</span><br><span class="line">                    (width + scaledChildWidth) / <span class="number">2</span>, height);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> scaledChildHeight = previewHeight * width / previewWidth;</span><br><span class="line">            child.layout(<span class="number">0</span>, (height - scaledChildHeight) / <span class="number">2</span>,</span><br><span class="line">                    width, (height + scaledChildHeight) / <span class="number">2</span>);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>至此，经过测试，设备显示正常，横屏竖屏均再无拉伸现象了。</p>
+<p>总结下，demo工程在横屏下正常，而在竖屏下出现预览画面变形的原因主要是，onMeasure时选择previewsize和onlayout时布局surfaceview，都是基于横屏考虑的，所以w均大于h。<br>当activity改为竖屏运行时，就需要调整这两个地方，保证比例一致，才能计算正确，从而显示正常画面。</p>
+<h2 id="2-__u65B9_u5411_u95EE_u9898"><a href="#2-__u65B9_u5411_u95EE_u9898" class="headerlink" title="2. 方向问题"></a>2. 方向问题</h2><p>刚刚讲了变形的问题，我们应该发现当手机竖屏后，预览画面的方向没有随之改变过来，于是看上去就颠倒了。所以我们还需要处理一下方向的问题。</p>
+<p>注意这里的“方向”包括：前置、后置摄像头画面预览方向，前置后置摄像头拍照后的图片方向。</p>
+<h3 id="u9884_u89C8_u65B9_u5411_uFF1A"><a href="#u9884_u89C8_u65B9_u5411_uFF1A" class="headerlink" title="预览方向："></a>预览方向：</h3><p>通过查询android文档，可以发现如下资料：</p>
+<blockquote>
+<p>For example, suppose the natural orientation of the device is<br>portrait. The device is rotated 270 degrees clockwise, so the device<br>orientation is 270. Suppose a back-facing camera sensor is mounted in<br>landscape and the top side of the camera sensor is aligned with the<br>right edge of the display in natural orientation. So the camera<br>orientation is 90. The rotation should be set to 0 (270 + 90).</p>
+</blockquote>
+<p>（后置摄像头）<br>可以得知，camera是在设置上是固定方向的， camera的顶部是和屏幕自然显示时的右边对齐的。说明camera默认就是横屏方向的。为了在竖屏的时候进行preview预览，我们需要调整camera的方向。</p>
+<p>setDisplayOrientation 可以修改camera的预览方向。</p>
+<blockquote>
+<p>If you want to make the camera image show in the same orientation as<br>the display, you can use the following code.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setCameraDisplayOrientation</span><span class="params">(Activity activity,</span><br><span class="line">    <span class="keyword">int</span> cameraId, android.hardware.Camera camera)</span> </span>&#123;</span><br><span class="line">android.hardware.Camera.CameraInfo info =</span><br><span class="line">        <span class="keyword">new</span> android.hardware.Camera.CameraInfo();</span><br><span class="line">android.hardware.Camera.getCameraInfo(cameraId, info);</span><br><span class="line"><span class="keyword">int</span> rotation = activity.getWindowManager().getDefaultDisplay()</span><br><span class="line">        .getRotation();</span><br><span class="line"><span class="keyword">int</span> degrees = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">switch</span> (rotation) &#123;</span><br><span class="line">    <span class="keyword">case</span> Surface.ROTATION_0: degrees = <span class="number">0</span>; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> Surface.ROTATION_90: degrees = <span class="number">90</span>; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> Surface.ROTATION_180: degrees = <span class="number">180</span>; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> Surface.ROTATION_270: degrees = <span class="number">270</span>; <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> result;</span><br><span class="line"><span class="keyword">if</span> (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) &#123;</span><br><span class="line">    result = (info.orientation + degrees) % <span class="number">360</span>;</span><br><span class="line">    result = (<span class="number">360</span> - result) % <span class="number">360</span>;  <span class="comment">// compensate the mirror</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;  <span class="comment">// back-facing</span></span><br><span class="line">    result = (info.orientation - degrees + <span class="number">360</span>) % <span class="number">360</span>;</span><br><span class="line">&#125;</span><br><span class="line">camera.setDisplayOrientation(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u62CD_u7167_u65B9_u5411_uFF1A"><a href="#u62CD_u7167_u65B9_u5411_uFF1A" class="headerlink" title="拍照方向："></a>拍照方向：</h3><p>若想修改照片的方向，还需调用 camera.setRotation，google 的文档说的很清楚了，添加一个orientation listener既可以从传感器获取当前设备旋转方向，参考如下代码即可正确设置照片方向。但要注意一点，<strong><em>这个方向和activity方向（可以在android-manifest设置）无关。</em></strong> 无论activity此时是什么方向，只要获取了传感器方向均可以正确调整照片方向，与预览方面一致。</p>
+<p>代码方面，由于这个回调调用比较频繁（设备角度一变化就会调用），可以在回调里保存下rotation，然后在拍照的时候再设置camera。由于考虑了前置摄像头，须注意传递正确的cameraId。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mCamera.setParameters(parameters);</span><br><span class="line">mCamera.takePicture(shutterCallback, rawCallback,jpegCallback);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>CameraInfo.orientation is the angle between camera orientation and<br>natural device orientation. The sum of the two is the rotation angle<br>for back-facing camera. The difference of the two is the rotation<br>angle for front-facing camera. Note that the JPEG pictures of<br>front-facing cameras are not mirrored as in preview display. For<br>example, suppose the natural orientation of the device is portrait.<br>The device is rotated 270 degrees clockwise, so the device orientation<br>is 270. Suppose a back-facing camera sensor is mounted in landscape<br>and the top side of the camera sensor is aligned with the right edge<br>of the display in natural orientation. So the camera orientation is</p>
+<ol>
+<li>The rotation should be set to 0 (270 + 90).</li>
+</ol>
+<p>The reference code is as follows.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onOrientationChanged</span><span class="params">(<span class="keyword">int</span> orientation)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (orientation == ORIENTATION_UNKNOWN) <span class="keyword">return</span>;</span><br><span class="line">        android.hardware.Camera.CameraInfo info =</span><br><span class="line">            <span class="keyword">new</span> android.hardware.Camera.CameraInfo();</span><br><span class="line">        android.hardware.Camera.getCameraInfo(cameraId, info);</span><br><span class="line">        orientation = (orientation + <span class="number">45</span>) / <span class="number">90</span> * <span class="number">90</span>;</span><br><span class="line">        <span class="keyword">int</span> rotation = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (info.facing == CameraInfo.CAMERA_FACING_FRONT) &#123;</span><br><span class="line">            rotation = (info.orientation - orientation + <span class="number">360</span>) % <span class="number">360</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;  <span class="comment">// back-facing camera</span></span><br><span class="line">            rotation = (info.orientation + orientation) % <span class="number">360</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        mParameters.setRotation(rotation);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="3-__u603B_u7ED3"><a href="#3-__u603B_u7ED3" class="headerlink" title="3. 总结"></a>3. 总结</h2><p>到此为止，我们基本上是实现了一个最简单的拍照应用，能支持前后摄像头，预览正确，照片方向正确。文中一些api在低版本sdk上没有，不能直接用，还须参考资料换用其他方法。<br>由于手头设备有限，我仅仅在android4.2 小米手机上测试过，pad未测试。</p>
+<h2 id="u8865_u5145"><a href="#u8865_u5145" class="headerlink" title="补充"></a>补充</h2><p>setRotation 在一些设备上无效 拍照后得到的图像还是横屏的，所以在save前需要再rotate一下。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Bitmap <span class="title">adjustPhotoRotationToPortrait</span><span class="params">(<span class="keyword">byte</span>[] data)</span> </span>&#123;</span><br><span class="line">    BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</span><br><span class="line">    options.inJustDecodeBounds = <span class="keyword">true</span>;</span><br><span class="line">    BitmapFactory.decodeByteArray(data, <span class="number">0</span>, data.length, options);</span><br><span class="line">    <span class="keyword">if</span> (options.outHeight &lt; options.outWidth) &#123;</span><br><span class="line">        <span class="keyword">int</span> w = options.outWidth;</span><br><span class="line">        <span class="keyword">int</span> h = options.outHeight;</span><br><span class="line"></span><br><span class="line">        Matrix mtx = <span class="keyword">new</span> Matrix();</span><br><span class="line">        mtx.postRotate(<span class="number">90</span>);</span><br><span class="line">        <span class="comment">// Rotating Bitmap</span></span><br><span class="line">        Bitmap bmp = BitmapFactory.decodeByteArray(data, <span class="number">0</span>, data.length);</span><br><span class="line">        Bitmap rotatedBMP = Bitmap.createBitmap(bmp, <span class="number">0</span>, <span class="number">0</span>, w, h, mtx, <span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">return</span> rotatedBMP;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kmfish.net/2013/09/08/android-camera-preivew-problem/" data-id="cijh8rkw400022wof3i1airtc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+
     </footer>
   </div>
   
@@ -116,15 +397,29 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 10px;">android</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a></li></ul>
     </div>
   </div>
 
@@ -137,7 +432,23 @@
       <ul>
         
           <li>
-            <a href="/2016/01/16/hello-world/">Hello World</a>
+            <a href="/2016/01/16/MultiTypeListViewAdapter/">MultiTypeListViewAdapter Android ListView 多type的Adapter封装</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/22/Can-update-view-in-background-thread/">android 子线程中更新界面？被ProgressBar给迷惑了</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/31/Get-gopro-video-stream/">如何获取 Gopro 视频流</a>
+          </li>
+        
+          <li>
+            <a href="/2015/08/08/组合还是继承/">组合还是继承</a>
+          </li>
+        
+          <li>
+            <a href="/2014/09/21/Why use fragment/">Why use fragment？</a>
           </li>
         
       </ul>
@@ -152,7 +463,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 John Doe<br>
+      &copy; 2016 kmfish<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
