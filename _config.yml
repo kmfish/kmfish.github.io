@@ -69,4 +69,5 @@ theme: maupassant
 deploy:
   type: git
   repo: http://github.com/kmfish/kmfish.github.io
+  branch: hexo
 
