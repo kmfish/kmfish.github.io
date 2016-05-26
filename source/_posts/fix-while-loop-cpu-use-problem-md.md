@@ -1,5 +1,5 @@
 ---
-title: 修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug.md
+title: 修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug
 date: 2016-05-26 16:19:27
 tags:
 ---
