@@ -8,6 +8,7 @@ permalink: ?p=14
 问题：最近在处理一下camera的问题，发现在竖屏时预览图像会变形，而横屏时正常。但有的手机则是横竖屏都会变形。
 
 结果：解决了预览变形的问题，同时支持前后摄像头，预览无变形，拍照生成的jpg照片方向正确。
+<!--more-->
 
 环境 ： android studio, xiaomi m1s android4.2 miui v5
 

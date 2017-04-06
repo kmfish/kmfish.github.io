@@ -1,11 +1,12 @@
 ---
 title: 修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug
 date: 2016-05-26 16:19:27
-tags:
+tags: 性能优化
 ---
 
 # 起因
 基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。
+<!--more-->
 
 # 发现问题
 今天先操作进入一个房间后，使用android的traceview跟踪了一段2s左右的cpu使用数据，然后通过traceview对其进行分析。
@@ -20,7 +21,7 @@ tags:
 
 # 定位原因
 最终定位到这段问题代码：
-```
+```java
 @Override
      public void run() {
          android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
@@ -40,7 +41,7 @@ tags:
 
 # 修复
 知道了根本原因后，修复的方法也很简单，将poll换为take() 即可，take方法在队列为空时会block住当前thread，从而不再占用cpu。
-```
+```java
 @Override
      public void run() {
          android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);

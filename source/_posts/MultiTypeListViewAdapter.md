@@ -1,7 +1,7 @@
 ---
 title: MultiTypeListViewAdapter Android ListView 多type的Adapter封装
----
-标签（空格分隔）： Android ListView Adapter ViewType
+tags: Android ListView Adapter ViewType
+date: 2016-01-16
 
 ---
 
@@ -11,7 +11,7 @@ MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编
 同时，由于每个type的item均被抽离出来了。相当于复用的粒度为每个type item，可以根据需要，动态地选择合适的item去添加到adapter中。提高了代码复用，每个人编写维护好自己的item即可，避免了多人合作时都去修改Adapter，容易造成冲突。
 
 另外，由于ViewHolder 模式的规范，MultiTypeListViewAdapter也同时封装了ViewHolder模式。
-
+<!--more-->
 ---
 
 ## 常见的ListView Adapter 实现

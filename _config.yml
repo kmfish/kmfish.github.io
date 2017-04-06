@@ -4,10 +4,10 @@
 
 # Site
 title: 昆明鱼
-subtitle: 一条走在程序路上的小鱼儿
-description: 技术改变生活，我的技术和生活。
+subtitle: 一条走在技术路上的小鱼儿
+description: 记录我的技术与生活
 author: kmfish
-language: zh-CN
+language: zh-Hans
 timezone:
 
 # URL
@@ -62,7 +62,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: maupassant
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -70,4 +70,23 @@ deploy:
   type: git
   repo: http://github.com/kmfish/kmfish.github.io
   branch: master
+
+jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: true
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
 

@@ -18,7 +18,7 @@ tags:
 
 
 主要原因是fragment提供了backstack支持界面状态的回退，以及生命周期特性。（在SDK 17 以后fragment也支持嵌套了）
-
+<!--more-->
 
 
 - 过去的模式：

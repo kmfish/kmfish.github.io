@@ -10,6 +10,8 @@ mProgressBar.setProgress(progress);
 ```
 且执行正常，progressbar确实一直在更新。
 顿觉疑惑，View在更新时，会检查当前线程是否是创建view所在的线程（即UI线程），若不一致，则会抛出异常的。
+<!--more-->
+
 in ViewRootImpl.java 中：
 ```java
     void checkThread() {
