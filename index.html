@@ -250,145 +250,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://kmfish.net/2017/03/29/MultiTypeListViewAdapter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="kmfish">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/518858?v=3&s=400">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="昆明鱼">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/29/MultiTypeListViewAdapter/" itemprop="url">
-                  MultiTypeListViewAdapter Android ListView 多type的Adapter封装
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-29T22:03:33+08:00">
-                2017-03-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/29/MultiTypeListViewAdapter/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/03/29/MultiTypeListViewAdapter/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="MultiTypeListViewAdapter-是什么？"><a href="#MultiTypeListViewAdapter-是什么？" class="headerlink" title="MultiTypeListViewAdapter 是什么？"></a><a href="https://github.com/kmfish/MultiTypeListViewAdapter">MultiTypeListViewAdapter</a> 是什么？</h2><p>MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编程模式，通过对每种type统一接口，利用多态的方式，将type的实现从Adapter中抽离出来。Adapter只需面向统一接口，所以可以提供一个通用实现，实现代码不再变动。而会变动的每个type对应的item实现，则由使用者自己去实现。对扩展开放，对修改封闭。</p>
-<p>同时，由于每个type的item均被抽离出来了。相当于复用的粒度为每个type item，可以根据需要，动态地选择合适的item去添加到adapter中。提高了代码复用，每个人编写维护好自己的item即可，避免了多人合作时都去修改Adapter，容易造成冲突。</p>
-<p>另外，由于ViewHolder 模式的规范，MultiTypeListViewAdapter也同时封装了ViewHolder模式。</p>
-<h2 id=""><a href="#" class="headerlink" title=""></a>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/29/MultiTypeListViewAdapter/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://kmfish.net/2016/05/26/fix-while-loop-cpu-use-problem-md/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -616,6 +477,145 @@
             <p>博客之前用的是sina的SAE + press，也一直还不错。其实最早一开始用的是AWS的EC2，但连接速度实在太慢，才换到SAE的。然后参加活动获得了一些云豆，本以为够用蛮久的，结果最近一两个月，突然的访问把云豆都用光了。于是，就打算切换到githubpages上，昨晚在网上看了下hexo来搭建博客，看上去蛮不错的，于是就切换过来了。这次应该就不怕流量用完了，而且hexo的使用也蛮方便的，网上的各种资料也挺多，感谢这些作者，给大家带来了便利。</p>
 
           
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.net/2016/01/16/MultiTypeListViewAdapter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/518858?v=3&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/01/16/MultiTypeListViewAdapter/" itemprop="url">
+                  MultiTypeListViewAdapter Android ListView 多type的Adapter封装
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-16T00:00:00+08:00">
+                2016-01-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/01/16/MultiTypeListViewAdapter/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2016/01/16/MultiTypeListViewAdapter/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="MultiTypeListViewAdapter-是什么？"><a href="#MultiTypeListViewAdapter-是什么？" class="headerlink" title="MultiTypeListViewAdapter 是什么？"></a><a href="https://github.com/kmfish/MultiTypeListViewAdapter">MultiTypeListViewAdapter</a> 是什么？</h2><p>MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编程模式，通过对每种type统一接口，利用多态的方式，将type的实现从Adapter中抽离出来。Adapter只需面向统一接口，所以可以提供一个通用实现，实现代码不再变动。而会变动的每个type对应的item实现，则由使用者自己去实现。对扩展开放，对修改封闭。</p>
+<p>同时，由于每个type的item均被抽离出来了。相当于复用的粒度为每个type item，可以根据需要，动态地选择合适的item去添加到adapter中。提高了代码复用，每个人编写维护好自己的item即可，避免了多人合作时都去修改Adapter，容易造成冲突。</p>
+<p>另外，由于ViewHolder 模式的规范，MultiTypeListViewAdapter也同时封装了ViewHolder模式。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/01/16/MultiTypeListViewAdapter/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
