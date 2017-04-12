@@ -1,6 +1,8 @@
 ---
 title: MultiTypeListViewAdapter Android ListView 多type的Adapter封装
-tags: Android ListView Adapter ViewType
+tags: 
+- Android
+- ListView
 date: 2016-01-16
 
 ---

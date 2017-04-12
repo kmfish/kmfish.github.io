@@ -1,7 +1,9 @@
 ---
 title: 通过flatmap组合多个SqlBrite的QueryObservable 使用的问题
 date: 2016-12-21 19:16:18
-tags: SqlBrite RxJava
+tags: 
+- SqlBrite
+- RxJava
 ---
 
 # 阅读背景
