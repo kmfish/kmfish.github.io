@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Android,表情包,人脸识别," />
 
 
 
@@ -87,17 +87,20 @@
 
 
 
-<meta name="description" content="前言：最近的工作在研究gopro的视频流如何获取，通过搜索资料，以及对gopro app的抓包分析，得出了以下经验。这次的分析过程也体会到抓包分析的好处，以后还应进一步学习如何用好抓包工具。">
+<meta name="description" content="需求产品有个需求是使用用户上传的照片，自动生成目前比较火的表情包，如下图：">
+<meta name="keywords" content="Android,表情包,人脸识别">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何获取 Gopro 视频流">
-<meta property="og:url" content="http://kmfish.net/2015/08/31/Get-gopro-video-stream/index.html">
+<meta property="og:title" content="一个有趣的需求实现过程：人脸表情包制作">
+<meta property="og:url" content="http://kmfish.net/2017/12/26/face-clipper/index.html">
 <meta property="og:site_name" content="昆明鱼">
-<meta property="og:description" content="前言：最近的工作在研究gopro的视频流如何获取，通过搜索资料，以及对gopro app的抓包分析，得出了以下经验。这次的分析过程也体会到抓包分析的好处，以后还应进一步学习如何用好抓包工具。">
+<meta property="og:description" content="需求产品有个需求是使用用户上传的照片，自动生成目前比较火的表情包，如下图：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-04-01T10:24:09.000Z">
+<meta property="og:image" content="https://www.jiuwa.net/uploads/image/20170506/20170506084900_43824.jpg">
+<meta property="og:updated_time" content="2017-12-26T13:12:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何获取 Gopro 视频流">
-<meta name="twitter:description" content="前言：最近的工作在研究gopro的视频流如何获取，通过搜索资料，以及对gopro app的抓包分析，得出了以下经验。这次的分析过程也体会到抓包分析的好处，以后还应进一步学习如何用好抓包工具。">
+<meta name="twitter:title" content="一个有趣的需求实现过程：人脸表情包制作">
+<meta name="twitter:description" content="需求产品有个需求是使用用户上传的照片，自动生成目前比较火的表情包，如下图：">
+<meta name="twitter:image" content="https://www.jiuwa.net/uploads/image/20170506/20170506084900_43824.jpg">
 
 
 
@@ -125,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://kmfish.net/2015/08/31/Get-gopro-video-stream/"/>
+  <link rel="canonical" href="http://kmfish.net/2017/12/26/face-clipper/"/>
 
 
 
 
 
-  <title> 如何获取 Gopro 视频流 | 昆明鱼 </title>
+  <title> 一个有趣的需求实现过程：人脸表情包制作 | 昆明鱼 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -250,7 +253,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://kmfish.net/2015/08/31/Get-gopro-video-stream/">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.net/2017/12/26/face-clipper/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="kmfish">
@@ -271,7 +274,7 @@
             
             
               
-                如何获取 Gopro 视频流
+                一个有趣的需求实现过程：人脸表情包制作
               
             
           </h1>
@@ -286,8 +289,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-31T15:28:34+08:00">
-                2015-08-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T20:53:00+08:00">
+                2017-12-26
               </time>
             
 
@@ -305,9 +308,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2015/08/31/Get-gopro-video-stream/#comments" itemprop="discussionUrl">
+                <a href="/2017/12/26/face-clipper/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2015/08/31/Get-gopro-video-stream/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/12/26/face-clipper/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -333,20 +336,36 @@
       
 
       
-        <p>前言：最近的工作在研究gopro的视频流如何获取，通过搜索资料，以及对gopro app的抓包分析，得出了以下经验。这次的分析过程也体会到抓包分析的好处，以后还应进一步学习如何用好抓包工具。<br><a id="more"></a></p>
-<h2 id="如何获取Gopro的视频流"><a href="#如何获取Gopro的视频流" class="headerlink" title="如何获取Gopro的视频流"></a>如何获取Gopro的视频流</h2><p>以下的这些url会随gopro的型号版本而有所不同，需要自己抓包分析确定。</p>
-<p>gopro提供了wifi和hdmi的视频输出，目前研究的是wifi输出。<br>通过对gopro app抓包分析，和网上搜索的资料，整理出以下方法：</p>
-<ol>
-<li>先通过gopro app完成和gopro的蓝牙配对，配置好wifi热点，并开启wifi热点；</li>
-<li>手机切换至gopro的热点网络，在 udp://:8554 上开启监听。</li>
-<li>发送http get request( <a href="http://10.5.5.9/gp/gpExec?p1=gpStreamA9&amp;c1=restart)，gopro即开始向手机的" target="_blank" rel="noopener">http://10.5.5.9/gp/gpExec?p1=gpStreamA9&amp;c1=restart)，gopro即开始向手机的</a> 8554 端口发送数据。手机即可在udp 8554端口收到数据。</li>
-<li>通过抓包分析，gopro app会定期（1次/s）发送心跳请求，维持连接。<br>udp :　“<em>GPHD</em>:1:0:2:0”  0.3次/s  // 若无此心跳，则视频流几秒后会中断<br>http : GET /gp/gpControl/status   2次/s  //若无此心跳，则gopro的wifi热点几分钟后会关闭</li>
+        <h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>产品有个需求是使用用户上传的照片，自动生成目前比较火的表情包，如下图：<br><img src="https://www.jiuwa.net/uploads/image/20170506/20170506084900_43824.jpg" alt="aaa"></p>
+<a id="more"></a>
+<h1 id="技术点"><a href="#技术点" class="headerlink" title="技术点"></a>技术点</h1><ol>
+<li>人脸识别，这是购买别人的SDK实现的啦 。</li>
+<li>图像的处理，抠图、图像变换、裁剪、叠加到背景等。</li>
 </ol>
-<p>备注：<br>抓包分析出gopro通信的一些url，响应均为json<br><strong>GET /bacpac/cv</strong> 返回gopro热点名称<br><strong>GET /gp/gpControl</strong> 返回gopro所有设置项的当前状态，可选项信息，以及所有支持的url command<br>如： <strong>/gp/gpControl/command/wireless/pair/cancel</strong> 如果已经配对成功则取消配对</p>
-<p>其他包<br>gopro app 会发送mdns请求，获取gopro的ip地址及mac地址等信息；<br>gopro app 每次进入preview界面时，会向全网发送WOL包，WOL（Wake on Lan）局域网唤醒，远程唤醒设备。</p>
-<h2 id="视频流格式，码率"><a href="#视频流格式，码率" class="headerlink" title="视频流格式，码率"></a>视频流格式，码率</h2><p>h.264，aac，mpegts流<br>录制视频：<br>码率范围：20mbps~60mbps<br><a href="http://zh.gopro.com/support/articles/hero4-black-recording-time-in-each-video-setting" target="_blank" rel="noopener">http://zh.gopro.com/support/articles/hero4-black-recording-time-in-each-video-setting</a></p>
-<p>实时预览下码率为：<br>1mbps，帧率为30fps</p>
-<h2 id="上传视频"><a href="#上传视频" class="headerlink" title="上传视频"></a>上传视频</h2><p>1、wifi连接gopro，可以通过移动网络传输视频流<br>ios下，可以在连接wifi热点的同时，其他数据通信自动走移动网络通道完成。<br>android，5.0提供了新的网络api，可以给app指定使用特定网络。</p>
+<h1 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h1><p>简单分析了下，要实现这个效果，也有几个关键点要处理好：</p>
+<ul>
+<li>图像灰度、亮度、对比度的调整</li>
+<li>脸部区域扣取和边缘模糊</li>
+</ul>
+<p>当然，如果要进一步优化下去，也有很多的细节了：</p>
+<ul>
+<li>人脸方向和背景不一致，则需要调整</li>
+<li>人脸背景色和表情背景色不一致的情况，要调整；</li>
+<li>人脸图像大小和位置也需要调整<br>。。。<br>先从基础的这几个点介绍下吧。</li>
+</ul>
+<h2 id="图像效果处理"><a href="#图像效果处理" class="headerlink" title="图像效果处理"></a>图像效果处理</h2><p>这里我使用了GPUImage的滤镜，可以很方便的对原图进行处理。<br>GPUImageGrayscaleFilter GPUImageContrastFilter GPUImageBrightnessFilter 组合使用这三个滤镜，完成灰度、对比度、亮度的调整即可。</p>
+<h2 id="脸部区域扣取和边缘模糊"><a href="#脸部区域扣取和边缘模糊" class="headerlink" title="脸部区域扣取和边缘模糊"></a>脸部区域扣取和边缘模糊</h2><ol>
+<li><p>计算脸部区域合适的Path<br>根据识别SDK给出的人脸五官部位的特征点，来构造一个脸部五官区域的Path。这个Path的计算也经历了几个尝试，主要以两眉和嘴的坐标点来计算，最后的方案是 左眉最左边A，嘴唇下部B，右眉最右边C，从A出发，AB、BC、CA 顺序画了三条贝塞尔曲线，来达到有弧度的边缘效果。</p>
+</li>
+<li><p>扣取该Path区域<br>一开始用了canvas.clipPath 来抠图，但发现边缘有锯齿，上网查资料得知，clipPath不能添加抗锯齿效果了，需要采用Paint 配置PorterDuffXfermode 的方式来实现。原理就是，先drawPath画一张Path区域大小的图A，然后再drawBitmap把A画到原图上去，采用PorterDuff.Mode.DST_IN 的模式即可仅保留住path的像素，去掉其余像素。关于PorterDuff模式的使用，也是有点小坑，可以参考下<a href="http://blog.csdn.net/wingichoy/article/details/50534175" target="_blank" rel="noopener">这篇blog</a>。</p>
+</li>
+<li><p>边缘模糊效果<br>如果clip的边缘没有模糊效果，那么融合到背景上去是很生硬的，所以需要添加模糊处理。在扣取这步drawPath的时候采用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">paint.setMaskFilter(<span class="keyword">new</span> BlurMaskFilter(EDGE_BLUR, BlurMaskFilter.Blur.NORMAL));</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>即可在path路径上增加模糊效果了。</p>
+<h2 id="裁剪合适的大小"><a href="#裁剪合适的大小" class="headerlink" title="裁剪合适的大小"></a>裁剪合适的大小</h2><p>经过上述步骤后，已经得到了一个仅保留面部区域像素的bitmap（其他区域为透明），此时需要进行一次裁剪，得到一个仅面部大小的图片。在一番尝试后，最后基于path的bounds Rect，再向周围扩大一圈，来计算剪切的rect。这样可以保留住path周围的模糊边缘，才能达到更好的融合效果。</p>
+<h1 id="后续优化"><a href="#后续优化" class="headerlink" title="后续优化"></a>后续优化</h1><p>就这个功能来说，目前的效果也只是demo程度了。后续持续优化的话，可能就需要考虑人脸角度，原片亮度，背景了。</p>
 
       
     </div>
@@ -374,6 +393,16 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/表情包/" rel="tag"># 表情包</a>
+          
+            <a href="/tags/人脸识别/" rel="tag"># 人脸识别</a>
+          
+        </div>
+      
 
       
         
@@ -383,8 +412,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/08/08/组合还是继承/" rel="next" title="组合还是继承">
-                <i class="fa fa-chevron-left"></i> 组合还是继承
+              <a href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" rel="next" title="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">
+                <i class="fa fa-chevron-left"></i> 通过flatmap组合多个SqlBrite的QueryObservable 使用的问题
               </a>
             
           </div>
@@ -393,8 +422,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/22/Can-update-view-in-background-thread/" rel="prev" title="android 子线程中更新界面？被ProgressBar给迷惑了">
-                android 子线程中更新界面？被ProgressBar给迷惑了 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/26/androd-lifycycle-thinking/" rel="prev" title="androd中的lifycycle库的思考">
+                androd中的lifycycle库的思考 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -522,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何获取Gopro的视频流"><span class="nav-number">1.</span> <span class="nav-text">如何获取Gopro的视频流</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视频流格式，码率"><span class="nav-number">2.</span> <span class="nav-text">视频流格式，码率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传视频"><span class="nav-number">3.</span> <span class="nav-text">上传视频</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#技术点"><span class="nav-number">2.</span> <span class="nav-text">技术点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现过程"><span class="nav-number">3.</span> <span class="nav-text">实现过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像效果处理"><span class="nav-number">3.1.</span> <span class="nav-text">图像效果处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#脸部区域扣取和边缘模糊"><span class="nav-number">3.2.</span> <span class="nav-text">脸部区域扣取和边缘模糊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#裁剪合适的大小"><span class="nav-number">3.3.</span> <span class="nav-text">裁剪合适的大小</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后续优化"><span class="nav-number">4.</span> <span class="nav-text">后续优化</span></a></li></ol></div>
             
 
           </div>
@@ -666,9 +695,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://kmfish.net/2015/08/31/Get-gopro-video-stream/';
-          this.page.identifier = '2015/08/31/Get-gopro-video-stream/';
-          this.page.title = '如何获取 Gopro 视频流';
+          this.page.url = 'http://kmfish.net/2017/12/26/face-clipper/';
+          this.page.identifier = '2017/12/26/face-clipper/';
+          this.page.title = '一个有趣的需求实现过程：人脸表情包制作';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://kmfish.disqus.com/embed.js';

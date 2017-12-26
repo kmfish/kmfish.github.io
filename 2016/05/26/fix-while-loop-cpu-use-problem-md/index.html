@@ -88,11 +88,13 @@
 
 
 <meta name="description" content="起因基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。">
+<meta name="keywords" content="性能优化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug">
 <meta property="og:url" content="http://kmfish.net/2016/05/26/fix-while-loop-cpu-use-problem-md/index.html">
 <meta property="og:site_name" content="昆明鱼">
 <meta property="og:description" content="起因基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://kmfish.net/2016/05/26/fix-while-loop-cpu-use-problem-md/post1.png">
 <meta property="og:image" content="http://kmfish.net/2016/05/26/fix-while-loop-cpu-use-problem-md/post2.png">
 <meta property="og:image" content="http://kmfish.net/2016/05/26/fix-while-loop-cpu-use-problem-md/post3.png">
@@ -339,15 +341,15 @@
       
         <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。<br><a id="more"></a></p>
 <h1 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h1><p>今天先操作进入一个房间后，使用android的traceview跟踪了一段2s左右的cpu使用数据，然后通过traceview对其进行分析。</p>
-<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post1.png" alt="图一" title="图一">
+<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post1.png" title="图一">
 <p>如图一所示，左边列出了该时间段内的线程，右边则图形化的显示了它们的cpu使用情况。很直观的能够发现，”GroupMsgTransport”这个线程几乎一直在占用cpu，比main线程还多的多。所以首先引起怀疑。</p>
-<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post2.png" alt="图二" title="图二">
+<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post2.png" title="图二">
 <p>再进一步查看详细的cpu使用情况，发现占用cpu time最多的几项都是在对一个BlockingQueue的操作，选择这些行之后，也定位到了 “GroupMsgTransport”线程。说明这条线程一直在对Queue执行poll操作。通过在代码中搜索关键字，查找到了这个罪魁祸首。</p>
 <h1 id="定位原因"><a href="#定位原因" class="headerlink" title="定位原因"></a>定位原因</h1><p>最终定位到这段问题代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">         android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);</div><div class="line"></div><div class="line">         <span class="keyword">while</span> (run) &#123;</div><div class="line">             <span class="keyword">final</span> ImGroupMsgInfo info;</div><div class="line">             info = mMQ.poll();    <span class="comment">// 罪魁祸首的一行， poll()方法在队列为空时会return null，从而就导致该循环无限执行下去，空耗了cpu</span></div><div class="line">             <span class="keyword">if</span> (info != <span class="keyword">null</span>) &#123;</div><div class="line">                      <span class="comment">//...</span></div><div class="line">             &#125; <span class="keyword">else</span> &#123;</div><div class="line">                     <span class="comment">// do nothing</span></div><div class="line">             &#125;</div><div class="line">         &#125;</div><div class="line">     &#125;</div></pre></td></tr></table></figure></p>
 <h1 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h1><p>知道了根本原因后，修复的方法也很简单，将poll换为take() 即可，take方法在队列为空时会block住当前thread，从而不再占用cpu。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">         android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);</div><div class="line"></div><div class="line">         <span class="keyword">while</span> (run) &#123;</div><div class="line">            ImGroupMsgInfo msgInfo = <span class="keyword">null</span>;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                msgInfo = mMQ.take(); <span class="comment">// 修改此处为take()</span></div><div class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                MLog.error(TAG, e);</div><div class="line">            &#125;</div><div class="line"> </div><div class="line">             <span class="keyword">final</span> ImGroupMsgInfo info = msgInfo; </div><div class="line">             <span class="keyword">if</span> (info != <span class="keyword">null</span>) &#123;</div><div class="line">                      <span class="comment">//...</span></div><div class="line">             &#125; <span class="keyword">else</span> &#123;</div><div class="line">                     <span class="comment">// do nothing</span></div><div class="line">             &#125;</div><div class="line">         &#125;</div><div class="line">     &#125;</div></pre></td></tr></table></figure></p>
 <h1 id="结果对比"><a href="#结果对比" class="headerlink" title="结果对比"></a>结果对比</h1><p>修改之前，cpu占用高达近50%：</p>
-<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post3.png" alt="图三" title="图三">
-<p>修改之后，cpu占用不到10%：<br><img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post4.png" alt="图四" title="图四"></p>
+<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post3.png" title="图三">
+<p>修改之后，cpu占用不到10%：<br><img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post4.png" title="图四"></p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>在修复了这一处问题后，又继续在项目里搜索了下使用poll()的地方，结果就又发现了一处一模一样的bug。。。<br>以后可以多留意while(true)循环，要注意循环是否有正确的退出时机，或block的时机，避免出现类似问题。</p>
 
       
@@ -482,7 +484,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -495,7 +497,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
