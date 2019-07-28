@@ -6,7 +6,7 @@ tags:
 
 # 需求
 产品有个需求是使用用户上传的照片，自动生成目前比较火的表情包，如下图：
-![aaa](https://pic1.zhimg.com/f951e904f83706764c9e659be74f55dc_b.png)
+{% asset_img face1.png  图一 %}
 <!--more-->
 
 # 技术点
