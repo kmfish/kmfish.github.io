@@ -102,7 +102,7 @@
   <meta name="description" content="记录我的技术与生活">
 <meta property="og:type" content="website">
 <meta property="og:title" content="昆明鱼">
-<meta property="og:url" content="http://kmfish.github.io/archives/2015/08/index.html">
+<meta property="og:url" content="http://kmfish.github.io/page/2/index.html">
 <meta property="og:site_name" content="昆明鱼">
 <meta property="og:description" content="记录我的技术与生活">
 <meta property="og:locale" content="zh-Hans">
@@ -116,7 +116,7 @@
 
   
   
-  <link rel="canonical" href="http://kmfish.github.io/archives/2015/08/">
+  <link rel="canonical" href="http://kmfish.github.io/page/2/">
 
 
 
@@ -127,7 +127,7 @@
 </script>
 
   
-  <title>Archive | 昆明鱼</title>
+  <title>昆明鱼</title>
   
 
 
@@ -175,7 +175,8 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -233,7 +234,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
 
     
     
@@ -254,19 +255,6 @@
   
     
 
-    
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
   
 
   
@@ -286,109 +274,339 @@
           
           <div id="content" class="content">
             
+  <section id="posts" class="posts-expand">
+    
+        
 
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        Um..! 12 posts in total. Keep on posting.
-      </span>
-      
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2015">2015</h1>
-          </div>
-        
-        
-
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2014/09/21/Why use fragment/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
         
-          <a class="post-title-link" href="/2015/08/31/Get-gopro-video-stream/" itemprop="url">
-            
-              <span itemprop="name">如何获取 Gopro 视频流</span>
-            
-          </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2014/09/21/Why use fragment/" class="post-title-link" itemprop="url">Why use fragment？</a>
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2015-08-31T15:28:34+08:00" content="2015-08-31">
-          08-31
-        </time>
-      </div>
+        <div class="post-meta">
 
-    </header>
-  </article>
+          
+          
+          
 
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
 
+              
+                
+              
+
+              <time title="Created: 2014-09-21 21:49:13" itemprop="dateCreated datePublished" datetime="2014-09-21T21:49:13+08:00">2014-09-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>针对这个问题，在网上搜索了下，有以下一些看法：</p>
+<blockquote>
+<p>1、fragments are more reusable than custom views.</p>
+</blockquote>
+<p>作者认为，fragment能够封装单靠view无法处理的事。自定义控件无法处理跨activity交互等事件，还是需要靠activity来完成，这会增加custom views 和activity的耦合。不利于复用。而fragment可以封装更多的东西，包括AsyncTask，file and database access等。</p>
+<blockquote>
+<p>2、the main reason to use Fragments are for the backstack and lifecycle<br>features. Otherwise, custom views are more light weight, simpler to<br>implement, and have the advantage that they can be nested.<br><a href="http://stackoverflow.com/questions/8617696/what-is-the-benefit-of-using-fragments-in-android-rather-than-views?lq=1" target="_blank" rel="noopener">see here</a></p>
+</blockquote>
+<p>主要原因是fragment提供了backstack支持界面状态的回退，以及生命周期特性。（在SDK 17 以后fragment也支持嵌套了）<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2014/09/21/Why use fragment/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
 
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-          <a class="post-title-link" href="/2015/08/08/组合还是继承/" itemprop="url">
-            
-              <span itemprop="name">组合还是继承</span>
-            
-          </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2015-08-08T21:59:37+08:00" content="2015-08-08">
-          08-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-    </div>
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </div>
   
   
   
+  </article>
+
+    
+        
 
   
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2013/09/08/?p=14/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2013/09/08/?p=14/" class="post-title-link" itemprop="url">android camera 摄像头预览画面变形</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2013-09-08 22:59:37" itemprop="dateCreated datePublished" datetime="2013-09-08T22:59:37+08:00">2013-09-08</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题：最近在处理一下camera的问题，发现在竖屏时预览图像会变形，而横屏时正常。但有的手机则是横竖屏都会变形。</p>
+<p>结果：解决了预览变形的问题，同时支持前后摄像头，预览无变形，拍照生成的jpg照片方向正确。<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2013/09/08/?p=14/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+  </section>
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 
 
