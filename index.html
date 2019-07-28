@@ -1,389 +1,1641 @@
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
+
+
+
+
+
+
+
+
+
+
+
+
   
-  <title>昆明鱼</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: ''
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
   <meta name="description" content="记录我的技术与生活">
 <meta property="og:type" content="website">
 <meta property="og:title" content="昆明鱼">
-<meta property="og:url" content="http://kmfish.net/index.html">
+<meta property="og:url" content="http://kmfish.github.io/index.html">
 <meta property="og:site_name" content="昆明鱼">
 <meta property="og:description" content="记录我的技术与生活">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="昆明鱼">
 <meta name="twitter:description" content="记录我的技术与生活">
+
+
+
+
+
   
-    <link rel="alternate" href="/atom.xml" title="昆明鱼" type="application/atom+xml">
   
+  <link rel="canonical" href="http://kmfish.github.io/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
   
-    <link rel="icon" href="/favicon.png">
+  <title>昆明鱼</title>
   
-  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/style.css">
-  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
 </head>
-</html>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">昆明鱼</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">一条走在技术路上的小鱼儿</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-          <a class="main-nav-link" href="/about">About</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kmfish.net"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
   
-    <article id="post-SqlBrite-flatMap-multiple-queryObservable-cause-duplicates" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" class="article-date">
-  <time datetime="2016-12-21T11:16:18.000Z" itemprop="datePublished">2016-12-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</a>
-    </h1>
+    
   
 
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">昆明鱼</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">一条走在技术路上的小鱼儿</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home menu-item-active">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+        
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2019/07/28/clean-architecture-business-logic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/07/28/clean-architecture-business-logic/" class="post-title-link" itemprop="url">《Clean Architecture》读书笔记 - 业务逻辑</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-07-28 23:45:46 / Modified: 23:48:23" itemprop="dateCreated datePublished" datetime="2019-07-28T23:45:46+08:00">2019-07-28</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="阅读背景"><a href="#阅读背景" class="headerlink" title="阅读背景"></a>阅读背景</h1><p><a href="https://github.com/square/sqlbrite" target="_blank" rel="noopener">SqlBrite</a>  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。</p>
-        
-          <p class="article-more-link">
-            <a href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://kmfish.net/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" data-id="cjyn3s4mh000dmna4h1ndytqc" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SqlBrite/">SqlBrite</a></li></ul>
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>读了 Martin大叔的 《Clean Architecture》，对其中第20章 业务逻辑 ，记录下自己的理解。<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/07/28/clean-architecture-business-logic/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
-
-
   
-    <article id="post-fix-while-loop-cpu-use-problem-md" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" class="article-date">
-  <time datetime="2016-05-26T08:19:27.000Z" itemprop="datePublished">2016-05-26</time>
-</a>
+  
+  </article>
+
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
+
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/26/fix-while-loop-cpu-use-problem-md/">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</a>
-    </h1>
+  
   
 
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" class="post-title-link" itemprop="url">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-12-21 19:16:18" itemprop="dateCreated datePublished" datetime="2016-12-21T19:16:18+08:00">2016-12-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-        <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。<br>
+      
+
+      
         
-          <p class="article-more-link">
-            <a href="/2016/05/26/fix-while-loop-cpu-use-problem-md/#more">Read More</a>
-          </p>
+          <h1 id="阅读背景"><a href="#阅读背景" class="headerlink" title="阅读背景"></a>阅读背景</h1><p><a href="https://github.com/square/sqlbrite" target="_blank" rel="noopener">SqlBrite</a>  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。</p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://kmfish.net/2016/05/26/fix-while-loop-cpu-use-problem-md/" data-id="cjyn3s4m30005mna4fkdsiqb3" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
 
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
-
-
   
-    <article id="post-change-to-hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/01/17/change-to-hexo/" class="article-date">
-  <time datetime="2016-01-17T07:02:55.000Z" itemprop="datePublished">2016-01-17</time>
-</a>
+  
+  </article>
+
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
+
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/17/change-to-hexo/">切换到Hexo + GithubPages</a>
-    </h1>
+  
   
 
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2016/05/26/fix-while-loop-cpu-use-problem-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" class="post-title-link" itemprop="url">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-05-26 16:19:27" itemprop="dateCreated datePublished" datetime="2016-05-26T16:19:27+08:00">2016-05-26</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>博客之前用的是sina的SAE + press，也一直还不错。其实最早一开始用的是AWS的EC2，但连接速度实在太慢，才换到SAE的。然后参加活动获得了一些云豆，本以为够用蛮久的，结果最近一两个月，突然的访问把云豆都用光了。于是，就打算切换到githubpages上，昨晚在网上看了下hexo来搭建博客，看上去蛮不错的，于是就切换过来了。这次应该就不怕流量用完了，而且hexo的使用也蛮方便的，网上的各种资料也挺多，感谢这些作者，给大家带来了便利。</p>
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2016/05/26/fix-while-loop-cpu-use-problem-md/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2016/01/17/change-to-hexo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2016/01/17/change-to-hexo/" class="post-title-link" itemprop="url">切换到Hexo + GithubPages</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-01-17 15:02:55" itemprop="dateCreated datePublished" datetime="2016-01-17T15:02:55+08:00">2016-01-17</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>博客之前用的是sina的SAE + press，也一直还不错。其实最早一开始用的是AWS的EC2，但连接速度实在太慢，才换到SAE的。然后参加活动获得了一些云豆，本以为够用蛮久的，结果最近一两个月，突然的访问把云豆都用光了。于是，就打算切换到githubpages上，昨晚在网上看了下hexo来搭建博客，看上去蛮不错的，于是就切换过来了。这次应该就不怕流量用完了，而且hexo的使用也蛮方便的，网上的各种资料也挺多，感谢这些作者，给大家带来了便利。</p>
+
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://kmfish.net/2016/01/17/change-to-hexo/" data-id="cjyn3s4m30004mna4eo7ad7ry" class="article-share-link">Share</a>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
   
-</article>
-
-
   
-    <article id="post-MultiTypeListViewAdapter" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/01/16/MultiTypeListViewAdapter/" class="article-date">
-  <time datetime="2016-01-15T16:00:00.000Z" itemprop="datePublished">2016-01-16</time>
-</a>
+  
+  </article>
+
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
+
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/16/MultiTypeListViewAdapter/">MultiTypeListViewAdapter Android ListView 多type的Adapter封装</a>
-    </h1>
+  
   
 
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2016/01/16/MultiTypeListViewAdapter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2016/01/16/MultiTypeListViewAdapter/" class="post-title-link" itemprop="url">MultiTypeListViewAdapter Android ListView 多type的Adapter封装</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-01-16 00:00:00" itemprop="dateCreated datePublished" datetime="2016-01-16T00:00:00+08:00">2016-01-16</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-        <h2 id="MultiTypeListViewAdapter-是什么？"><a href="#MultiTypeListViewAdapter-是什么？" class="headerlink" title="MultiTypeListViewAdapter 是什么？"></a><a href="https://github.com/kmfish/MultiTypeListViewAdapter" target="_blank" rel="noopener">MultiTypeListViewAdapter</a> 是什么？</h2><p>MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编程模式，通过对每种type统一接口，利用多态的方式，将type的实现从Adapter中抽离出来。Adapter只需面向统一接口，所以可以提供一个通用实现，实现代码不再变动。而会变动的每个type对应的item实现，则由使用者自己去实现。对扩展开放，对修改封闭。</p>
+      
+
+      
+        
+          <h2 id="MultiTypeListViewAdapter-是什么？"><a href="#MultiTypeListViewAdapter-是什么？" class="headerlink" title="MultiTypeListViewAdapter 是什么？"></a><a href="https://github.com/kmfish/MultiTypeListViewAdapter" target="_blank" rel="noopener">MultiTypeListViewAdapter</a> 是什么？</h2><p>MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编程模式，通过对每种type统一接口，利用多态的方式，将type的实现从Adapter中抽离出来。Adapter只需面向统一接口，所以可以提供一个通用实现，实现代码不再变动。而会变动的每个type对应的item实现，则由使用者自己去实现。对扩展开放，对修改封闭。</p>
 <p>同时，由于每个type的item均被抽离出来了。相当于复用的粒度为每个type item，可以根据需要，动态地选择合适的item去添加到adapter中。提高了代码复用，每个人编写维护好自己的item即可，避免了多人合作时都去修改Adapter，容易造成冲突。</p>
 <p>另外，由于ViewHolder 模式的规范，MultiTypeListViewAdapter也同时封装了ViewHolder模式。</p>
-        
-          <p class="article-more-link">
-            <a href="/2016/01/16/MultiTypeListViewAdapter/#more">Read More</a>
-          </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2016/01/16/MultiTypeListViewAdapter/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
-    <footer class="article-footer">
-      <a data-url="http://kmfish.net/2016/01/16/MultiTypeListViewAdapter/" data-id="cjyn3s4me000amna4htncujwf" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ListView/">ListView</a></li></ul>
 
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
-
-
   
-    <article id="post-Can-update-view-in-background-thread" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/09/22/Can-update-view-in-background-thread/" class="article-date">
-  <time datetime="2015-09-22T06:51:37.000Z" itemprop="datePublished">2015-09-22</time>
-</a>
+  
+  </article>
+
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
+
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/22/Can-update-view-in-background-thread/">android 子线程中更新界面？被ProgressBar给迷惑了</a>
-    </h1>
+  
   
 
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2015/09/22/Can-update-view-in-background-thread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2015/09/22/Can-update-view-in-background-thread/" class="post-title-link" itemprop="url">android 子线程中更新界面？被ProgressBar给迷惑了</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2015-09-22 14:51:37" itemprop="dateCreated datePublished" datetime="2015-09-22T14:51:37+08:00">2015-09-22</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-        <p>在看apidemos的例子RetainedFragement时，看到在Thread中执行了 这么一句<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mProgressBar.setProgress(progress);</span><br></pre></td></tr></table></figure></p>
+      
+
+      
+        
+          <p>在看apidemos的例子RetainedFragement时，看到在Thread中执行了 这么一句<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mProgressBar.setProgress(progress);</span><br></pre></td></tr></table></figure></p>
 <p>且执行正常，progressbar确实一直在更新。<br>顿觉疑惑，View在更新时，会检查当前线程是否是创建view所在的线程（即UI线程），若不一致，则会抛出异常的。<br>
-        
-          <p class="article-more-link">
-            <a href="/2015/09/22/Can-update-view-in-background-thread/#more">Read More</a>
-          </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2015/09/22/Can-update-view-in-background-thread/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://kmfish.net/2015/09/22/Can-update-view-in-background-thread/" data-id="cjyn3s4lr0000mna479i79o6h" class="article-share-link">Share</a>
+    </p></div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
   
-</article>
-
-
   
-    <article id="post-Get-gopro-video-stream" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/31/Get-gopro-video-stream/" class="article-date">
-  <time datetime="2015-08-31T07:28:34.000Z" itemprop="datePublished">2015-08-31</time>
-</a>
+  
+  </article>
+
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
+
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/31/Get-gopro-video-stream/">如何获取 Gopro 视频流</a>
-    </h1>
+  
   
 
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2015/08/31/Get-gopro-video-stream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2015/08/31/Get-gopro-video-stream/" class="post-title-link" itemprop="url">如何获取 Gopro 视频流</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2015-08-31 15:28:34" itemprop="dateCreated datePublished" datetime="2015-08-31T15:28:34+08:00">2015-08-31</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-        <p>前言：最近的工作在研究gopro的视频流如何获取，通过搜索资料，以及对gopro app的抓包分析，得出了以下经验。这次的分析过程也体会到抓包分析的好处，以后还应进一步学习如何用好抓包工具。<br>
+      
+
+      
         
-          <p class="article-more-link">
-            <a href="/2015/08/31/Get-gopro-video-stream/#more">Read More</a>
-          </p>
+          <p>前言：最近的工作在研究gopro的视频流如何获取，通过搜索资料，以及对gopro app的抓包分析，得出了以下经验。这次的分析过程也体会到抓包分析的好处，以后还应进一步学习如何用好抓包工具。<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2015/08/31/Get-gopro-video-stream/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://kmfish.net/2015/08/31/Get-gopro-video-stream/" data-id="cjyn3s4m10002mna4v11wpn0s" class="article-share-link">Share</a>
+    </p></div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
   
-</article>
-
-
   
-    <article id="post-组合还是继承" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2015/08/08/组合还是继承/" class="article-date">
-  <time datetime="2015-08-08T13:59:37.000Z" itemprop="datePublished">2015-08-08</time>
-</a>
+  
+  </article>
+
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
+
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/08/组合还是继承/">组合还是继承</a>
-    </h1>
+  
   
 
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2015/08/08/组合还是继承/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2015/08/08/组合还是继承/" class="post-title-link" itemprop="url">组合还是继承</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2015-08-08 21:59:37" itemprop="dateCreated datePublished" datetime="2015-08-08T21:59:37+08:00">2015-08-08</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-        <p>如题，每天在“面向对象”的我们，也常常遇到这个选择吧。刚好看书书读到这个话题，就记录下阅读的理解。<br>
+      
+
+      
         
-          <p class="article-more-link">
-            <a href="/2015/08/08/组合还是继承/#more">Read More</a>
-          </p>
+          <p>如题，每天在“面向对象”的我们，也常常遇到这个选择吧。刚好看书书读到这个话题，就记录下阅读的理解。<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2015/08/08/组合还是继承/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://kmfish.net/2015/08/08/组合还是继承/" data-id="cjyn3s4m50006mna4j5v7tqc5" class="article-share-link">Share</a>
+    </p></div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
   
-</article>
-
-
   
-    <article id="post-Why use fragment" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/09/21/Why use fragment/" class="article-date">
-  <time datetime="2014-09-21T13:49:13.000Z" itemprop="datePublished">2014-09-21</time>
-</a>
+  
+  </article>
+
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
+
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/09/21/Why use fragment/">Why use fragment？</a>
-    </h1>
+  
   
 
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2014/09/21/Why use fragment/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2014/09/21/Why use fragment/" class="post-title-link" itemprop="url">Why use fragment？</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2014-09-21 21:49:13" itemprop="dateCreated datePublished" datetime="2014-09-21T21:49:13+08:00">2014-09-21</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
-        <p>针对这个问题，在网上搜索了下，有以下一些看法：</p>
+      
+
+      
+        
+          <p>针对这个问题，在网上搜索了下，有以下一些看法：</p>
 <blockquote>
 <p>1、fragments are more reusable than custom views.</p>
 </blockquote>
@@ -392,169 +1644,485 @@
 <p>2、the main reason to use Fragments are for the backstack and lifecycle<br>features. Otherwise, custom views are more light weight, simpler to<br>implement, and have the advantage that they can be nested.<br><a href="http://stackoverflow.com/questions/8617696/what-is-the-benefit-of-using-fragments-in-android-rather-than-views?lq=1" target="_blank" rel="noopener">see here</a></p>
 </blockquote>
 <p>主要原因是fragment提供了backstack支持界面状态的回退，以及生命周期特性。（在SDK 17 以后fragment也支持嵌套了）<br>
-        
-          <p class="article-more-link">
-            <a href="/2014/09/21/Why use fragment/#more">Read More</a>
-          </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2014/09/21/Why use fragment/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://kmfish.net/2014/09/21/Why use fragment/" data-id="cjyn3s4lx0001mna4282tber1" class="article-share-link">Share</a>
+    </p></div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
   
-</article>
-
-
   
-    <article id="post-?p=14" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2013/09/08/?p=14/" class="article-date">
-  <time datetime="2013-09-08T14:59:37.000Z" itemprop="datePublished">2013-09-08</time>
-</a>
+  
+  </article>
+
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
         
+
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/09/08/?p=14/">android camera 摄像头预览画面变形</a>
-    </h1>
+  
   
 
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2013/09/08/?p=14/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2013/09/08/?p=14/" class="post-title-link" itemprop="url">android camera 摄像头预览画面变形</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2013-09-08 22:59:37" itemprop="dateCreated datePublished" datetime="2013-09-08T22:59:37+08:00">2013-09-08</time>
+            </span>
+          
+
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-28 21:53:48" itemprop="dateModified" datetime="2019-07-28T21:53:48+08:00">2019-07-28</time>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>问题：最近在处理一下camera的问题，发现在竖屏时预览图像会变形，而横屏时正常。但有的手机则是横竖屏都会变形。</p>
-<p>结果：解决了预览变形的问题，同时支持前后摄像头，预览无变形，拍照生成的jpg照片方向正确。<br>
-        
-          <p class="article-more-link">
-            <a href="/2013/09/08/?p=14/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://kmfish.net/2013/09/08/?p=14/" data-id="cjyn3s4mf000bmna47ebaj79x" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>问题：最近在处理一下camera的问题，发现在竖屏时预览图像会变形，而横屏时正常。但有的手机则是横竖屏都会变形。</p>
+<p>结果：解决了预览变形的问题，同时支持前后摄像头，预览无变形，拍照生成的jpg照片方向正确。<br>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2013/09/08/?p=14/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </p></div>
+
+    
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+    
+  </section>
 
   
 
-</section>
+
+          </div>
+          
+
+        </div>
         
-          <aside id="sidebar">
+          
   
-    
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ListView/">ListView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SqlBrite/">SqlBrite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
   </div>
 
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
 
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   
+  <p class="site-author-name" itemprop="name">kmfish</p>
+  <div class="site-description motion-element" itemprop="description">记录我的技术与生活</div>
+</div>
+
+
+  <nav class="site-state motion-element">
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/SqlBrite/" style="font-size: 10px;">SqlBrite</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a>
-    </div>
-  </div>
-
-  
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a></li></ul>
-    </div>
-  </div>
 
-
-  
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recents</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</a>
-          </li>
-        
-          <li>
-            <a href="/2016/05/26/fix-while-loop-cpu-use-problem-md/">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</a>
-          </li>
-        
-          <li>
-            <a href="/2016/01/17/change-to-hexo/">切换到Hexo + GithubPages</a>
-          </li>
-        
-          <li>
-            <a href="/2016/01/16/MultiTypeListViewAdapter/">MultiTypeListViewAdapter Android ListView 多type的Adapter封装</a>
-          </li>
-        
-          <li>
-            <a href="/2015/09/22/Can-update-view-in-background-thread/">android 子线程中更新界面？被ProgressBar给迷惑了</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
 
-  
-</aside>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+          
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
         
       </div>
-      <footer id="footer">
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">kmfish</span>
+
   
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 kmfish<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-    <a href="/about" class="mobile-nav-link">About</a>
-  
-</nav>
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    
 
+    
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
+    
 
   </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.2.0"></script>
+
+
+
+  
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
 </body>
 </html>

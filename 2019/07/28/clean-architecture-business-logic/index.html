@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    search: {
+      root: '/',
+      path: ''
+    },
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    }
+  };
+</script>
+
+  <meta name="description" content="背景读了 Martin大叔的 《Clean Architecture》，对其中第20章 业务逻辑 ，记录下自己的理解。">
+<meta name="keywords" content="architecture">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Clean Architecture》读书笔记 - 业务逻辑">
+<meta property="og:url" content="http://kmfish.github.io/2019/07/28/clean-architecture-business-logic/index.html">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="背景读了 Martin大叔的 《Clean Architecture》，对其中第20章 业务逻辑 ，记录下自己的理解。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-28T15:48:23.741Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《Clean Architecture》读书笔记 - 业务逻辑">
+<meta name="twitter:description" content="背景读了 Martin大叔的 《Clean Architecture》，对其中第20章 业务逻辑 ，记录下自己的理解。">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://kmfish.github.io/2019/07/28/clean-architecture-business-logic/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  
+  <title>《Clean Architecture》读书笔记 - 业务逻辑 | 昆明鱼</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">昆明鱼</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">一条走在技术路上的小鱼儿</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.github.io/2019/07/28/clean-architecture-business-logic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="记录我的技术与生活">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《Clean Architecture》读书笔记 - 业务逻辑
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-07-28 23:45:46 / Modified: 23:48:23" itemprop="dateCreated datePublished" datetime="2019-07-28T23:45:46+08:00">2019-07-28</time>
+            </span>
+          
+
+          
+            
+
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>读了 Martin大叔的 《Clean Architecture》，对其中第20章 业务逻辑 ，记录下自己的理解。<br><a id="more"></a></p>
+<h1 id="业务逻辑"><a href="#业务逻辑" class="headerlink" title="业务逻辑"></a>业务逻辑</h1><blockquote>
+<p>业务逻辑就是程序中那些真正用于赚钱或省钱的业务逻辑与过程。</p>
+</blockquote>
+<p>如我做的直播类应用，用户送礼给主播，然后直播间播放礼物特效。这就是业务赚钱的一个核心逻辑。这就叫“关键业务逻辑”。<br>这个过程中处理的一些数据，如礼物id，数量，价格，收礼对象等，就是“关键业务数据”。<br>这两者是紧密相关的，很适合放在同一个对象中处理，这种对象就称为“业务实体（Entity）”。</p>
+<h2 id="业务实体"><a href="#业务实体" class="headerlink" title="业务实体"></a>业务实体</h2><blockquote>
+<p>业务实体这种对象中包含了一系列用于操作关键数据的业务逻辑。这些实体对象要么直接包含关键数据，要么可以很容易地访问这些数据。业务实体的接口层则是由那些实现关键业务逻辑、操作关键数据的函数组成的。</p>
+</blockquote>
+<p>如 频道 这个业务实体，它内部有频道信息，频道状态等关键数据，同时提供了进频道，离开频道，查询频道信息，频道状态等接口。</p>
+<blockquote>
+<p>这个类独自代表了整个业务逻辑，它与数据库、用户界面、第三方框架等内容无关。该类可以在任何一个系统中提供与其业务逻辑相关的服务，它不会去管这个系统是如何呈现给用户的，数据是如何存储的，或是以何种方式运行的。总而言之，业务实体这个概念中应该只有业务逻辑，没有别的。</p>
+</blockquote>
+<p>业务实体是实现自己的业务逻辑，依赖到的其他细节，如数据存储、网络通信、界面等，都应该声明好接口，由外部提供具体实现。这样的业务实体类是很稳定的，只与业务逻辑有关，与其他细节都无关。具备了很好的复用性，跨平台性。如我经历过的一个项目，它的一个核心玩法的逻辑层，我们就在多个app中进行了复用。因为不同平台下不同app宿主下，这个玩法的业务逻辑都是一样的，是稳定的，所以能够复用。</p>
+<blockquote>
+<p>业务实体这个概念只要求我们将关键业务数据和关键业务逻辑绑定在同一个独立的软件模块内。</p>
+</blockquote>
+<p>业务实体并不是专指一个面向对象编程语言中的一个类。它是一个概念，只要是一个独立的软件模块即可。</p>
+<h2 id="用例-UseCase"><a href="#用例-UseCase" class="headerlink" title="用例 UseCase"></a>用例 UseCase</h2><h3 id="用例是什么？"><a href="#用例是什么？" class="headerlink" title="用例是什么？"></a>用例是什么？</h3><blockquote>
+<p>用例本质上就是关于如何操作一个自动化系统的描述，它定义了用户需要提供的输入数据、用户应该得到的输出信息以及产生输出所应该采取的处理步骤。当然，用例所描述的是某种特定应用情景下的业务逻辑，它并非业务实体中所包含的关键业务逻辑。</p>
+</blockquote>
+<p>martin在这里举了一个银行为新贷款收集客户联系信息的用例，该用例有输入，输出，还定义了该情景下的业务逻辑。其中还调用到了关键业务实体“客户”，这里的客户就是一个业务实体，其中包含了处理银行与客户之间关系的关键业务逻辑。</p>
+<blockquote>
+<p>用例中包含了对如何调用业务实体中的关键业务逻辑的定义。简而言之，用例控制着业务实体之间的交互方式。</p>
+</blockquote>
+<p>我还是以直播app为例，“频道”是一个业务实体，“主播开播”我觉得就可以认为是一个用例。</p>
+<ul>
+<li>输入是主播提供的开播标题、封面等，</li>
+<li>输出是进入一个频道内（若首次开播，可能会先创建该频道），然后开始音视频推流直播。</li>
+<li>该情景下的业务逻辑可能是：检查输入信息合法；检查频道是否存在，新建or进入频道；进入成功后，通知媒体系统开始推流；<br>这个用例里就控制了“频道”、“媒体系统”等实体的交互，共同完成了开播这个用例的功能。</li>
+</ul>
+<h3 id="用例包含什么，不包含什么"><a href="#用例包含什么，不包含什么" class="headerlink" title="用例包含什么，不包含什么"></a>用例包含什么，不包含什么</h3><blockquote>
+<p>用例并不描述系统与用户之间的接口，它只描述该应用在某些特定情景下的业务逻辑，这些业务逻辑所规范的是用户与业务实体之间的交互方式，它与数据流入/流出系统的方式无关。</p>
+</blockquote>
+<p>所以我们只看用例，是没有办法看出系统是在什么平台交付的，如web，手机，或者是命令行模式。即用例不包括数据输入、输出和具体系统平台的接口描述。</p>
+<blockquote>
+<p>用例对象中包含了一个或多个实现了特定应用情景的业务逻辑函数。当然除此之外，用例对象中也包含了输入数据、输出数据以及相关业务实体的引用，以方便调用。</p>
+</blockquote>
+<p>这就是用例应该包含的内容。</p>
+<h3 id="实体和用例的依赖关系"><a href="#实体和用例的依赖关系" class="headerlink" title="实体和用例的依赖关系"></a>实体和用例的依赖关系</h3><blockquote>
+<p>业务实体这样的高层概念是无须了解像用例这样的低层概念的。反之，低层的业务用例却需要了解高层的业务实体。<br>那么，为什么业务实体属于高层概念，而用例输入低层概念呢？因为用例描述的是一个特定的应用情景，这样一来，用例必然会更靠近系统的输入和输出。而业务实体是一个可以适用于多个应用情景下的一般化概念，相对地离系统的输入和输出更远。所以，用例依赖业务实体，而业务实体却并不依赖于用例。</p>
+</blockquote>
+<p>还是以前面的“开播”和“频道”来理解，“开播”用例是直播app下的一个特定应用情景，需要关联着用户输入开播参数，开播后的输出推流状态等。而“频道”业务实体，是一个更一般化的概念，进出频道，频道状态变化等，都离具体的用户输入、效果展示输出更远。所以，“开播”会依赖到“频道”，而“频道”却不会依赖“开播”。</p>
+<h2 id="请求和响应模型"><a href="#请求和响应模型" class="headerlink" title="请求和响应模型"></a>请求和响应模型</h2><blockquote>
+<p>在通常情况下，用例会接收输入数据，并产生输出数据。但在一个设计良好的架构中，用例对象通常不应该知道数据展现给用户或其他组件的方式。很显然，我们当然不会希望这些用例类中的代码出现HTML和SQL。<br>因此，用例类所接收的输入应该是一个简单的请求性数据结构，而返回输出的应该是一个简单的响应性数据结构。这些数据结构中不应该存在任何依赖关系，它们并不派生自HttpRequest和HttpResponse这样的标准框架接口。这些数据应该与web无关，也不应该了解任何有关用户界面的细节。<br>这种独立性非常关键，如果这里的请求和响应模型不是完全独立的，那么用到这些模型的用例就会依赖于这些模型所带来的各种依赖关系。</p>
+</blockquote>
+<p>用例的输入、输出模型要简单，就是一个类似java中的POJO对象，无其他任何依赖关系。</p>
+<blockquote>
+<p>可能有些读者会选择直接中数据结构中使用对业务实体对象的引用。毕竟，业务实体与请求/响应模型之间有很多相同的数据。但请一定不要这样做！这两个对象存在的意义是非常、非常不一样的。随着时间的推移，这两个对象会以不同的原因，不同的速率发生变更。所以将它们以任何形式整合在一起都是对共同必包原则（CCP）和单一职责原则（SRP）的违反。这样做的后果，往往会导致代码中出现很多分支判断语句和中间数据。</p>
+</blockquote>
+<p>martin在这本书里多个地方提到架构设计需要将“以不同原因，不同速率发生变更”的对象隔离开。CCP原则（见书第13章共同必包原则）和SRP（单一职责原则）可以用一句话来概括：</p>
+<p><strong><em>将由于相同原因而修改，并且需要同时修改的东西放在一起。将由于不同原因而修改，并且不同时修改的东西分开。</em></strong></p>
+<h2 id="本章小结"><a href="#本章小结" class="headerlink" title="本章小结"></a>本章小结</h2><blockquote>
+<p>业务逻辑是一个软件系统存在的意义，它们属于核心功能，是系统用来赚钱或省钱的那部分代码，是整个系统中的皇冠明珠。<br>这些业务逻辑应该保持纯净，不要掺杂用户界面或者所使用的数据库相关的东西。在理想情况下，这部分代表业务的代码应该是整个系统的核心，其他低层概念的实现应该以插件形式接入系统中。业务逻辑应该是系统中最独立、复用性最高的代码。</p>
+</blockquote>
+<p>回想经历过的项目中，最近负责的一个代码复用项目确实正如上述这段内容描述一般，保持纯业务逻辑，所依赖的外部实现均以接口注入方法接入。所以这个模块也得以在多个项目中复用。就是一个典型的例子。<br>面对一个项目，最重要的是先找出其核心业务逻辑、核心功能来。识别出其中的业务实体 和 用例，把业务逻辑层设计好，整体系统设计就成功了一半了。</p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/architecture/" rel="tag"># architecture</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" rel="next" title="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">
+                <i class="fa fa-chevron-left"></i> 通过flatmap组合多个SqlBrite的QueryObservable 使用的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  
+  <p class="site-author-name" itemprop="name">kmfish</p>
+  <div class="site-description motion-element" itemprop="description">记录我的技术与生活</div>
+</div>
+
+
+  <nav class="site-state motion-element">
+    
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+
+    
+
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#业务逻辑"><span class="nav-number">2.</span> <span class="nav-text">业务逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#业务实体"><span class="nav-number">2.1.</span> <span class="nav-text">业务实体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用例-UseCase"><span class="nav-number">2.2.</span> <span class="nav-text">用例 UseCase</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#用例是什么？"><span class="nav-number">2.2.1.</span> <span class="nav-text">用例是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用例包含什么，不包含什么"><span class="nav-number">2.2.2.</span> <span class="nav-text">用例包含什么，不包含什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实体和用例的依赖关系"><span class="nav-number">2.2.3.</span> <span class="nav-text">实体和用例的依赖关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#请求和响应模型"><span class="nav-number">2.3.</span> <span class="nav-text">请求和响应模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本章小结"><span class="nav-number">2.4.</span> <span class="nav-text">本章小结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">kmfish</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+</body>
+</html>
