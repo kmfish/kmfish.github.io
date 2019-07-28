@@ -1,0 +1,724 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android ListView Adapter ViewType," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="MultiTypeListViewAdapter 是什么？MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编程模式，通过对每种type统一接口，利用多态的方式，将type的实现从Adapter中抽离出来。Adapter只需面向统一接口，所以可以提供一个通用实现，实现代码不再变动。而会变动的每个type对应的item实现，则由使用者自己去实现。对扩展">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MultiTypeListViewAdapter Android ListView 多type的Adapter封装">
+<meta property="og:url" content="http://kmfish.net/2017/03/29/MultiTypeListViewAdapter/index.html">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="MultiTypeListViewAdapter 是什么？MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编程模式，通过对每种type统一接口，利用多态的方式，将type的实现从Adapter中抽离出来。Adapter只需面向统一接口，所以可以提供一个通用实现，实现代码不再变动。而会变动的每个type对应的item实现，则由使用者自己去实现。对扩展">
+<meta property="og:updated_time" content="2017-04-01T10:22:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MultiTypeListViewAdapter Android ListView 多type的Adapter封装">
+<meta name="twitter:description" content="MultiTypeListViewAdapter 是什么？MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编程模式，通过对每种type统一接口，利用多态的方式，将type的实现从Adapter中抽离出来。Adapter只需面向统一接口，所以可以提供一个通用实现，实现代码不再变动。而会变动的每个type对应的item实现，则由使用者自己去实现。对扩展">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://kmfish.net/2017/03/29/MultiTypeListViewAdapter/"/>
+
+
+
+
+
+  <title> MultiTypeListViewAdapter Android ListView 多type的Adapter封装 | 昆明鱼 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">昆明鱼</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一条走在技术路上的小鱼儿</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://kmfish.net/2017/03/29/MultiTypeListViewAdapter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="kmfish">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars2.githubusercontent.com/u/518858?v=3&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="昆明鱼">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MultiTypeListViewAdapter Android ListView 多type的Adapter封装
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-29T22:03:33+08:00">
+                2017-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/29/MultiTypeListViewAdapter/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/03/29/MultiTypeListViewAdapter/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="MultiTypeListViewAdapter-是什么？"><a href="#MultiTypeListViewAdapter-是什么？" class="headerlink" title="MultiTypeListViewAdapter 是什么？"></a><a href="https://github.com/kmfish/MultiTypeListViewAdapter" target="_blank" rel="external">MultiTypeListViewAdapter</a> 是什么？</h2><p>MultiTypeListViewAdapter，顾名思义。其封装了多type下的Adapter的编程模式，通过对每种type统一接口，利用多态的方式，将type的实现从Adapter中抽离出来。Adapter只需面向统一接口，所以可以提供一个通用实现，实现代码不再变动。而会变动的每个type对应的item实现，则由使用者自己去实现。对扩展开放，对修改封闭。</p>
+<p>同时，由于每个type的item均被抽离出来了。相当于复用的粒度为每个type item，可以根据需要，动态地选择合适的item去添加到adapter中。提高了代码复用，每个人编写维护好自己的item即可，避免了多人合作时都去修改Adapter，容易造成冲突。</p>
+<p>另外，由于ViewHolder 模式的规范，MultiTypeListViewAdapter也同时封装了ViewHolder模式。</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h2 id="常见的ListView-Adapter-实现"><a href="#常见的ListView-Adapter-实现" class="headerlink" title="常见的ListView Adapter 实现"></a>常见的ListView Adapter 实现</h2><p>先看一下常见的ListAdapter 实现，分为单个type和多type两种情况。</p>
+<h3 id="1、单Type的Adapter"><a href="#1、单Type的Adapter" class="headerlink" title="1、单Type的Adapter"></a>1、单Type的Adapter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListAdapter</span> <span class="title">extend</span> <span class="title">BaseAdapter</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">private</span> List&lt;String&gt; contents = <span class="keyword">new</span> ArrayList();</div><div class="line">    ...</div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, View convertView, ViewGroup parent)</span> </span>&#123;</div><div class="line">            String item = getItem(position);</div><div class="line">            <span class="keyword">if</span>(<span class="keyword">null</span> == item) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"list item is never null. pos:"</span> + position);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                ViewHolder holder;</div><div class="line">                <span class="keyword">if</span>(<span class="keyword">null</span> == convertView) &#123;</div><div class="line">                    holder = createViewHolder(parent);</div><div class="line">                    convertView = holder.itemView;</div><div class="line">                    convertView.setTag(holder);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    holder = (ViewHolder)convertView.getTag();</div><div class="line">                &#125;</div><div class="line">   </div><div class="line">                item.updateHolder(holder, position);</div><div class="line">                <span class="keyword">return</span> convertView;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">private</span> ViewHolder <span class="title">createViewHolder</span><span class="params">(ViewGroup parent)</span> </span>&#123;</div><div class="line">        <span class="comment">// create item view from layout xml</span></div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateHolder</span><span class="params">(ViewHolder holder, String item)</span> </span>&#123;</div><div class="line">        <span class="comment">// update item view</span></div><div class="line">        holder.text.setText(item);</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</div><div class="line">        TextView text;</div><div class="line">       </div><div class="line">        ViewHolder(View itemView) &#123;</div><div class="line">            text = (TextView)itemView.findViewById(R.id.text);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>应该是挺常见的写法吧，继续往下。</p>
+<h3 id="2、多type的adapter"><a href="#2、多type的adapter" class="headerlink" title="2、多type的adapter"></a>2、多type的adapter</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListAdapter</span> <span class="title">extend</span> <span class="title">BaseAdapter</span> </span>&#123;</div><div class="line">    ...</div><div class="line">    <span class="keyword">private</span> List&lt;String&gt; contents = <span class="keyword">new</span> ArrayList();</div><div class="line">    ...</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (position % <span class="number">2</span> == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">   </div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getViewTypeCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">2</span>;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getView</span><span class="params">(<span class="keyword">int</span> position, View convertView, ViewGroup parent)</span> </span>&#123;</div><div class="line">            String item = getItem(position);</div><div class="line">            <span class="keyword">if</span>(<span class="keyword">null</span> == item) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"list item is never null. pos:"</span> + position);</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                ViewHolder holder;</div><div class="line">                <span class="keyword">if</span>(<span class="keyword">null</span> == convertView) &#123;</div><div class="line">                    <span class="keyword">if</span> (getItemViewType(position) == <span class="number">0</span>) &#123;</div><div class="line">                        holder = createViewHolder(parent);   </div><div class="line">                    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (getItemViewType(position) == <span class="number">1</span>) &#123;</div><div class="line">                        holder = createViewHolder1(parent);</div><div class="line">                    &#125;</div><div class="line">                   </div><div class="line">                    convertView = holder.itemView;</div><div class="line">                    convertView.setTag(holder);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    holder = (ViewHolder)convertView.getTag();</div><div class="line">                &#125;</div><div class="line">               </div><div class="line">                <span class="keyword">if</span> (getItemViewType(position) == <span class="number">0</span>) &#123;</div><div class="line">                    item.updateHolder(holder, position);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (getItemViewType(position) == <span class="number">1</span>) &#123;</div><div class="line">                    item.updateHolder1(holder, position);</div><div class="line">                &#125;</div><div class="line">               </div><div class="line">                <span class="keyword">return</span> convertView;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">private</span> ViewHolder <span class="title">createViewHolder</span><span class="params">(ViewGroup parent)</span> </span>&#123;</div><div class="line">        <span class="comment">// create item view from layout xml</span></div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">createViewHolder1</span><span class="params">(ViewGroup parent)</span> </span>&#123;</div><div class="line">        <span class="comment">// create item view from layout xml</span></div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateHolder</span><span class="params">(ViewHolder holder, String item)</span> </span>&#123;</div><div class="line">        <span class="comment">// update item view</span></div><div class="line">        holder.text.setText(item);</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateHolder1</span><span class="params">(ViewHolder1 holder, String item)</span> </span>&#123;</div><div class="line">        <span class="comment">// update item view</span></div><div class="line">        holder.text.setText(item);</div><div class="line">        holder.img.setImageResoure(R.drawable.img);</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> </span>&#123;</div><div class="line">        TextView text;</div><div class="line">       </div><div class="line">        ViewHolder(View itemView) &#123;</div><div class="line">            text = (TextView)itemView.findViewById(R.id.text);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder1</span> </span>&#123;</div><div class="line">        TextView text;</div><div class="line">        ImageView img;</div><div class="line">       </div><div class="line">        ViewHolder(View itemView) &#123;</div><div class="line">            text = (TextView)itemView.findViewById(R.id.text);</div><div class="line">            img = (ImageView)itemView.findViewById(R.id.img);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>看到这里，是否感觉这个Adapter的getView（）开始有些让人不舒服了呢。若type再进一步增加，难不成还得继续if/else下去，adapter变得又臭又长。估计往后下去，就再没人愿意维护了。而且，这个Adapter的这一堆代码还得到处重复写下去，每个有listView的地方，都得配套一个adapter。针对这个坑，我设计了MultiTypeListViewAdapter来解决。希望能帮助到有需要的程序猿们~</p>
+<hr>
+<h2 id="使用-MultiTypeListViewAdapter"><a href="#使用-MultiTypeListViewAdapter" class="headerlink" title="使用 MultiTypeListViewAdapter"></a>使用 MultiTypeListViewAdapter</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> ListView listView;</div><div class="line">    <span class="keyword">private</span> MultiTypeArrayAdapter adapter;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ITEM_TYPE_1 = <span class="number">0</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ITEM_TYPE_2 = <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ITEM_TYPE_COUNT = <span class="number">2</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line"></div><div class="line">        listView = (ListView) findViewById(R.id.listview);</div><div class="line">        adapter = <span class="keyword">new</span> MultiTypeArrayAdapter(ITEM_TYPE_COUNT);</div><div class="line">        listView.setAdapter(adapter);</div><div class="line"></div><div class="line">        setupAdapter();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setupAdapter</span><span class="params">()</span> </span>&#123;</div><div class="line">        adapter.setTypeCount(ITEM_TYPE_COUNT);</div><div class="line">        LineListItem1 item1 = <span class="keyword">new</span> LineListItem1(<span class="keyword">this</span>, ITEM_TYPE_1, <span class="string">"line type 1"</span>);</div><div class="line">        LineListItem2 item2 = <span class="keyword">new</span> LineListItem2(<span class="keyword">this</span>, ITEM_TYPE_2, <span class="string">"line type 2"</span>);</div><div class="line"></div><div class="line">        adapter.setNotifyOnChange(<span class="keyword">false</span>);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, len = <span class="number">50</span>; i &lt; len; i++) &#123;</div><div class="line">            adapter.addItem( i  % <span class="number">2</span> == <span class="number">0</span> ? item1 : item2);</div><div class="line">        &#125;</div><div class="line">        adapter.notifyDataSetChanged();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LineListItem1</span> <span class="keyword">extends</span> <span class="title">BaseListItem</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String line;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LineListItem1</span><span class="params">(Context mContext, <span class="keyword">int</span> viewType, String line)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(mContext, viewType);</div><div class="line">        <span class="keyword">this</span>.line = line;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">onGetItemLayoutRes</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> R.layout.list_item1;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LineViewHolder(itemView);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateHolder</span><span class="params">(ViewHolder holder, <span class="keyword">int</span> pos)</span> </span>&#123;</div><div class="line">        LineViewHolder h = (LineViewHolder) holder;</div><div class="line">        h.text.setText(line + <span class="string">"_"</span> + pos);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">LineViewHolder</span> <span class="keyword">extends</span> <span class="title">ViewHolder</span> </span>&#123;</div><div class="line"></div><div class="line">        TextView text;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LineViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>(itemView);</div><div class="line">            text = (TextView) itemView.findViewById(R.id.line_text);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LineListItem2</span> <span class="keyword">extends</span> <span class="title">BaseListItem</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String line;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LineListItem2</span><span class="params">(Context mContext, <span class="keyword">int</span> viewType, String line)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(mContext, viewType);</div><div class="line">        <span class="keyword">this</span>.line = line;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">onGetItemLayoutRes</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> R.layout.list_item2;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(View itemView)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> LineViewHolder2(itemView);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateHolder</span><span class="params">(ViewHolder holder, <span class="keyword">int</span> pos)</span> </span>&#123;</div><div class="line">        LineViewHolder2 h = (LineViewHolder2) holder;</div><div class="line">        h.text.setText(line + <span class="string">"_"</span> + pos);</div><div class="line">        h.img.setImageResource(R.drawable.icon_git);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">LineViewHolder2</span> <span class="keyword">extends</span> <span class="title">ViewHolder</span> </span>&#123;</div><div class="line">        ImageView img;</div><div class="line">        TextView text;</div><div class="line"></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LineViewHolder2</span><span class="params">(View itemView)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>(itemView);</div><div class="line">            img = (ImageView) itemView.findViewById(R.id.thumb);</div><div class="line">            text = (TextView) itemView.findViewById(R.id.name);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到，使用MultiTypeListViewAdapter之后，实现多type的Adapter变得相当简单了。再也不用面对一堆判断itemType的if/else了。每增加一种type，只需增加一种新的ListItem即可，再也不用去改动Adapter的代码了。</p>
+<p>项目发布在github上了，<a href="https://github.com/kmfish/MultiTypeListViewAdapter" target="_blank" rel="external">MultiTypeListViewAdapter</a>，欢迎fork和交流。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android-ListView-Adapter-ViewType/" rel="tag"># Android ListView Adapter ViewType</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" rel="next" title="修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug">
+                <i class="fa fa-chevron-left"></i> 修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars2.githubusercontent.com/u/518858?v=3&s=400"
+               alt="kmfish" />
+          <p class="site-author-name" itemprop="name">kmfish</p>
+           
+              <p class="site-description motion-element" itemprop="description">记录我的技术与生活</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MultiTypeListViewAdapter-是什么？"><span class="nav-number">1.</span> <span class="nav-text">MultiTypeListViewAdapter 是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见的ListView-Adapter-实现"><span class="nav-number">3.</span> <span class="nav-text">常见的ListView Adapter 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、单Type的Adapter"><span class="nav-number">3.1.</span> <span class="nav-text">1、单Type的Adapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、多type的adapter"><span class="nav-number">3.2.</span> <span class="nav-text">2、多type的adapter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-MultiTypeListViewAdapter"><span class="nav-number">4.</span> <span class="nav-text">使用 MultiTypeListViewAdapter</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">kmfish</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://kmfish.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://kmfish.net/2017/03/29/MultiTypeListViewAdapter/';
+          this.page.identifier = '2017/03/29/MultiTypeListViewAdapter/';
+          this.page.title = 'MultiTypeListViewAdapter Android ListView 多type的Adapter封装';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://kmfish.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
