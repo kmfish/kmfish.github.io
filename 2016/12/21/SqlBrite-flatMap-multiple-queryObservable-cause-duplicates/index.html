@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>通过flatmap组合多个SqlBrite的QueryObservable 使用的问题 | 昆明鱼</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="阅读背景SqlBrite  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。">
+<meta name="keywords" content="SqlBrite,RxJava">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">
+<meta property="og:url" content="http://kmfish.net/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/index.html">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="阅读背景SqlBrite  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-28T13:53:48.515Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">
+<meta name="twitter:description" content="阅读背景SqlBrite  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。">
+  
+    <link rel="alternate" href="/atom.xml" title="昆明鱼" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">昆明鱼</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">一条走在技术路上的小鱼儿</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+          <a class="main-nav-link" href="/about">About</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kmfish.net"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-SqlBrite-flatMap-multiple-queryObservable-cause-duplicates" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" class="article-date">
+  <time datetime="2016-12-21T11:16:18.000Z" itemprop="datePublished">2016-12-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      通过flatmap组合多个SqlBrite的QueryObservable 使用的问题
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="阅读背景"><a href="#阅读背景" class="headerlink" title="阅读背景"></a>阅读背景</h1><p><a href="https://github.com/square/sqlbrite" target="_blank" rel="noopener">SqlBrite</a>  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。</p>
+<a id="more"></a>
+<p>自定义的词汇含义：</p>
+<ul>
+<li>订阅链、事件流： 这是指任意个Observable组合后，最终被某个Subscriber订阅时，所确定的一条订阅关系链。<br>如：　<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> ObservableA.flatMap(ObservableB)</span><br><span class="line">                        .flatMap(ObservableC)</span><br><span class="line">                       .subscribe(<span class="keyword">new</span> Subscriber&lt;T&gt;() &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>我们最近的一个项目中使用了SqlBrite  + SqlDelight框架 来实现我们的数据库层。同时也使用了RxJava。所以在项目代码中，有许多针对数据库操作的接口都是以Observable方式返回的，就自然的出现了一些以各种方式组合多个QueryObservable，再提供给外层的Subscriber订阅的情况。如下例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">queryA.flatMap(<span class="keyword">new</span> Func1&lt;String, Observable&lt;String&gt;&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Observable&lt;String&gt; <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> getQueryB(s);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;).flatMap(<span class="keyword">new</span> Func1&lt;String, Observable&lt;String&gt;&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Observable&lt;String&gt; <span class="title">call</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> getQueryC(s);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;).subcribe(<span class="keyword">new</span> Action1(String str) &#123;</span><br><span class="line">	  <span class="comment">// update UI</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> QueryObservable <span class="title">getQueryB</span><span class="params">(String params)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> britedatabase.createQuery(....);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> QueryObservable <span class="title">getQueryC</span><span class="params">(String params)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> britedatabase.createQuery(....);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码段中的queryA、queryB、queryC均是使用SqlBrite的createQuery接口返回的QueryObservable，所以它们均具有一直订阅着自己关注表的变更的特性（假设它们分别查询了A、B、C三张表）。咋看之下，这个流程似乎也没什么问题，我们的代码一开始也就是这样写的了。但后来遇到些数据错乱的情况时，才定位到这个问题。<br>设想这样的流程：</p>
+<ol>
+<li>当完成对这个事件流的订阅后，A表发生了1次变化，则queryA会发射1个数据到流里，那么接下来的getQueryB、getQueryC 方法均会执行1次，又由于createQuery每次都会创建QueryOBservable的实例，所以getQueryB执行1次，就创建了1个QueryObservableB的实例了，getQueryC同理，然后subcriber处会接收到1次数据。</li>
+<li>经过1之后，此时B表发生 了1次变化，那么getQueryC会执行一次，subscriber会收到1次事件，真的是这样吗？结论肯定是NO了。实际测试发现，此时subcriber会收到2次数据。</li>
+</ol>
+<h1 id="追根溯源"><a href="#追根溯源" class="headerlink" title="追根溯源"></a>追根溯源</h1><p>有点摸不着头脑了吧，我们再回顾之前的流程，会发现getQueryB 方法在整个流程中执行了2遍，说明创建了两个QueryObservableB的实例。当B表变化时，看起来像是这两个queryB的实例接收到了SqlBrite发射的数据了。<br>那究竟这两个queryB被谁订阅了呢？这就需要去看下RxJava的源码了，queryA和 getQueryB 是使用了flatMap操作符来连接的，所以我们看一下flatMap的实现：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; <span class="function">Observable&lt;R&gt; <span class="title">flatMap</span><span class="params">(Func1&lt;? <span class="keyword">super</span> T, ? extends Observable&lt;? extends R&gt;&gt; func)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (getClass() == ScalarSynchronousObservable.class) &#123;</span><br><span class="line">		<span class="keyword">return</span> ((ScalarSynchronousObservable&lt;T&gt;)<span class="keyword">this</span>).scalarFlatMap(func);</span><br><span class="line">	&#125;</span><br><span class="line">       <span class="comment">// 重点就在这一行了，我们可以发现flatMap其实就是先map，然后再merge</span></span><br><span class="line">	<span class="keyword">return</span> merge(map(func));   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; <span class="function">Observable&lt;R&gt; <span class="title">map</span><span class="params">(Func1&lt;? <span class="keyword">super</span> T, ? extends R&gt; func)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> create(<span class="keyword">new</span> OnSubscribeMap&lt;T, R&gt;(<span class="keyword">this</span>, func));  <span class="comment">//  map的实现就是OnSubscribeMap，其实就是包装了一个内部订阅者来订阅上游的Observable，当收到上游的数据时，执行func来转换数据类型，再发射新数据给下游订阅者。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">OperatorMerge</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Operator</span>&lt;<span class="title">T</span>, <span class="title">Observable</span>&lt;? <span class="keyword">extends</span> <span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MergeSubscriber</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Subscriber</span>&lt;<span class="title">Observable</span>&lt;? <span class="keyword">extends</span> <span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line">         .. .</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(Observable&lt;? extends T&gt; t)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (t == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (t == Observable.empty()) &#123;</span><br><span class="line">                emitEmpty();</span><br><span class="line">            &#125; <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">if</span> (t <span class="keyword">instanceof</span> ScalarSynchronousObservable) &#123;</span><br><span class="line">                tryEmit(((ScalarSynchronousObservable&lt;? extends T&gt;)t).get());</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                InnerSubscriber&lt;T&gt; inner = <span class="keyword">new</span> InnerSubscriber&lt;T&gt;(<span class="keyword">this</span>, uniqueId++);     <span class="comment">// 可以看到这里有个InnerSubscriber</span></span><br><span class="line">                addInner(inner);</span><br><span class="line">                t.unsafeSubscribe(inner);</span><br><span class="line">                emit();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>merge 操作符由于其代码比较多且有些复杂，我也只是简单分析了下，其内部使用了一个MergeSubscriber来代理上游的数据，然后让下游订阅它。<br>MergeSubscriber内部使用了InnerSubscriber的集合来订阅从上游接收到的每个Observable，然后再把接收的具体的data依次发射到下游，可以参考<br><a href="https://raw.githubusercontent.com/wiki/ReactiveX/RxJava/images/rx-operators/merge.oo.png" target="_blank" rel="noopener">merge的弹珠图</a><br><a href="https://raw.githubusercontent.com/wiki/ReactiveX/RxJava/images/rx-operators/flatMap.png" target="_blank" rel="noopener">flatMap的弹珠图</a></p>
+<p>经过对flatMap的分析，我们可以知道queryA发射数据，然后map操作符内部订阅了queryA，经过func转换后发射了多个QueryObservableB给merge操作符（因为这个func1是从String –&gt; Observable<string>），merge操作符会在内部分别订阅收到的多个QueryOBservableB。分析到这里，就明白了我们的场景下，两个QueryOBservableB的实例都是被merge操作符给订阅了，所以当B表变化，SqlBrite会发射数据给到这两个queryB，从而最终传递到subscriber处，就得到了2次数据。</string></p>
+<h1 id="解决方案探讨"><a href="#解决方案探讨" class="headerlink" title="解决方案探讨"></a>解决方案探讨</h1><p>针对这个问题，我们尝试了几种解决思路：</p>
+<ul>
+<li>避免这样的多个QueryObservable通过flatMap连接的情况，直接通过sql语句来做联合查询。<br>这样是回避了问题场景，但也确实有一些场景下还是会需要组合多个QueryObservable的，如先queryA，然后再到Server上查询一个结果b，最后再拿b去作为queryC的查询参数，这种情况下，queryA、queryC还是需要连接在一个事件流中了。</li>
+<li>当多个QueryObservable连接时，从第二个开始的query，均不再监听表的变化，如添加一个 .first()。但这样的话，若B、C表将来变化时，最终的subcriber是不会更新的。又考虑，可以在queryA里去监听整个事件流中涉及到的所有DB table，无论任何一张表变化，整个事件流均重新query一遍。但再一细想，这个做法也是不行的，queryA根本不可能掌握到整个事件流里到底需要监听哪些表，因为queryB、queryC并没有暴露这个信息，除非去看queryB、queryC的实现，但那样又都全部耦合了。而且queryA、queryB、queryC这样的方式，还有一个好处就是一个QueryObservable可以被复用，根据需要，既可以独立使用，也可以结合其他的query组合使用，而2方案的话，也会破坏这个特性了。</li>
+</ul>
+<h1 id="我们采用的方案"><a href="#我们采用的方案" class="headerlink" title="我们采用的方案"></a>我们采用的方案</h1><p>实现一个QueryObservableManager对象，来统一管理每次事件流中的QueryObservable的订阅，其内部维护一个当前事件流中已有的query订阅关系集合。对原始的createQuery生成的QueryObservable进行一层装饰，由调用者传递一个context参数，用来唯一标识出一个事件流中的一个QueryObservable。当DecorationObservable被订阅时，根据context查询，把之前存在的订阅关系进行退订。DecorationObservable内部再订阅raw query Observable。这让最终流的订阅者增加了两个因素的变化，一个是QueryObservableManager，一个是context参数。</p>
+<ul>
+<li><p>如何标识一个QueryObservable的订阅<br>通过分析，如果针对单个订阅链使用一个QueryObservableManager，那么在一个事件链中的不同QueryObservable可以利用return 该Observable的Method栈信息(StackTraceElement)来做context，来唯一标识。如上文例子的 getQueryB 这个方法。因为之前提到，getQueryB是可以复用的，在不同的订阅链中都可能出现，所以在不同订阅链的情况下，就不能仅仅以方法调用栈来标识了（此时两个实例的method栈信息是一样的，但其实是需要同时保持两个订阅的）。但对于一个订阅链来说，出现两个相同的栈时，意味着有多个相同的query被订阅了，此时就需要把之前的query给退订，保留最后一次订阅。一句话，<strong>一个订阅链中，同一个getQuery 方法的Observable订阅只能保持一个。</strong> 所以，这个context就不用外部传了，直接在QueryObservableManager 内部来确定即可。</p>
+</li>
+<li><p>如何在一个订阅链中，使用一个QueryObservableManager ？<br>通过将所有的类似 getQueryB的方法，均增加一个参数QueryObservableManager，在最终Observable被订阅时，由订阅者构造一个QueryObservableManager 实例，从而保证了在一个订阅链中，使用的都是同一个QueryObservableManager 对象。</p>
+</li>
+</ul>
+<h1 id="Demo测试项目"><a href="#Demo测试项目" class="headerlink" title="Demo测试项目"></a>Demo测试项目</h1><p><a href="https://github.com/kmfish/TestSqlBriteDemo/blob/master/app/src/main/java/sqlbrite/demos/yy/com/sqlbrite/db/BriteQueryObservableFactory.java" target="_blank" rel="noopener">QueryObservableManage实现</a></p>
+<p><a href="https://github.com/kmfish/TestSqlBriteDemo" target="_blank" rel="noopener">Demo 项目</a></p>
+<h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a href="https://github.com/square/sqlbrite/issues/102" target="_blank" rel="noopener">SqlBrite项目主页上也有人遇到这个问题了</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kmfish.net/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" data-id="cjyn3s4mh000dmna4h1ndytqc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SqlBrite/">SqlBrite</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ListView/">ListView</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SqlBrite/">SqlBrite</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/性能优化/">性能优化</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/ListView/" style="font-size: 10px;">ListView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/SqlBrite/" style="font-size: 10px;">SqlBrite</a> <a href="/tags/android/" style="font-size: 10px;">android</a> <a href="/tags/性能优化/" style="font-size: 10px;">性能优化</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/09/">September 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/09/">September 2013</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/26/fix-while-loop-cpu-use-problem-md/">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</a>
+          </li>
+        
+          <li>
+            <a href="/2016/01/17/change-to-hexo/">切换到Hexo + GithubPages</a>
+          </li>
+        
+          <li>
+            <a href="/2016/01/16/MultiTypeListViewAdapter/">MultiTypeListViewAdapter Android ListView 多type的Adapter封装</a>
+          </li>
+        
+          <li>
+            <a href="/2015/09/22/Can-update-view-in-background-thread/">android 子线程中更新界面？被ProgressBar给迷惑了</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 kmfish<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+    <a href="/about" class="mobile-nav-link">About</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
