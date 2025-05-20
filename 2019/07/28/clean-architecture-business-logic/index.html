@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>《Clean Architecture》读书笔记 - 业务逻辑 | 昆明鱼</title><meta name="author" content="kmfish"><meta name="copyright" content="kmfish"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="背景读了 Martin大叔的 《Clean Architecture》，对其中第20章 业务逻辑 ，记录下自己的理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Clean Architecture》读书笔记 - 业务逻辑">
+<meta property="og:url" content="http://kmfish.github.io/2019/07/28/clean-architecture-business-logic/index.html">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="背景读了 Martin大叔的 《Clean Architecture》，对其中第20章 业务逻辑 ，记录下自己的理解。">
+<meta property="og:locale">
+<meta property="og:image" content="http://kmfish.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2019-07-28T15:45:46.000Z">
+<meta property="article:modified_time" content="2025-05-20T06:31:21.797Z">
+<meta property="article:author" content="kmfish">
+<meta property="article:tag" content="architecture">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://kmfish.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "《Clean Architecture》读书笔记 - 业务逻辑",
+  "url": "http://kmfish.github.io/2019/07/28/clean-architecture-business-logic/",
+  "image": "http://kmfish.github.io/img/butterfly-icon.png",
+  "datePublished": "2019-07-28T15:45:46.000Z",
+  "dateModified": "2025-05-20T06:31:21.797Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kmfish",
+      "url": "http://kmfish.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://kmfish.github.io/2019/07/28/clean-architecture-business-logic/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '《Clean Architecture》读书笔记 - 业务逻辑',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">昆明鱼</span></a><a class="nav-page-title" href="/"><span class="site-name">《Clean Architecture》读书笔记 - 业务逻辑</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">《Clean Architecture》读书笔记 - 业务逻辑</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-07-28T15:45:46.000Z" title="Created 2019-07-28 23:45:46">2019-07-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-05-20T06:31:21.797Z" title="Updated 2025-05-20 14:31:21">2025-05-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>读了 Martin大叔的 《Clean Architecture》，对其中第20章 业务逻辑 ，记录下自己的理解。</p>
+<span id="more"></span>
+
+<h1 id="业务逻辑"><a href="#业务逻辑" class="headerlink" title="业务逻辑"></a>业务逻辑</h1><blockquote>
+<p>业务逻辑就是程序中那些真正用于赚钱或省钱的业务逻辑与过程。</p>
+</blockquote>
+<p>如我做的直播类应用，用户送礼给主播，然后直播间播放礼物特效。这就是业务赚钱的一个核心逻辑。这就叫“关键业务逻辑”。<br>这个过程中处理的一些数据，如礼物id，数量，价格，收礼对象等，就是“关键业务数据”。<br>这两者是紧密相关的，很适合放在同一个对象中处理，这种对象就称为“业务实体（Entity）”。</p>
+<h2 id="业务实体"><a href="#业务实体" class="headerlink" title="业务实体"></a>业务实体</h2><blockquote>
+<p>业务实体这种对象中包含了一系列用于操作关键数据的业务逻辑。这些实体对象要么直接包含关键数据，要么可以很容易地访问这些数据。业务实体的接口层则是由那些实现关键业务逻辑、操作关键数据的函数组成的。</p>
+</blockquote>
+<p>如 频道 这个业务实体，它内部有频道信息，频道状态等关键数据，同时提供了进频道，离开频道，查询频道信息，频道状态等接口。</p>
+<blockquote>
+<p>这个类独自代表了整个业务逻辑，它与数据库、用户界面、第三方框架等内容无关。该类可以在任何一个系统中提供与其业务逻辑相关的服务，它不会去管这个系统是如何呈现给用户的，数据是如何存储的，或是以何种方式运行的。总而言之，业务实体这个概念中应该只有业务逻辑，没有别的。</p>
+</blockquote>
+<p>业务实体是实现自己的业务逻辑，依赖到的其他细节，如数据存储、网络通信、界面等，都应该声明好接口，由外部提供具体实现。这样的业务实体类是很稳定的，只与业务逻辑有关，与其他细节都无关。具备了很好的复用性，跨平台性。如我经历过的一个项目，它的一个核心玩法的逻辑层，我们就在多个app中进行了复用。因为不同平台下不同app宿主下，这个玩法的业务逻辑都是一样的，是稳定的，所以能够复用。</p>
+<blockquote>
+<p>业务实体这个概念只要求我们将关键业务数据和关键业务逻辑绑定在同一个独立的软件模块内。</p>
+</blockquote>
+<p>业务实体并不是专指一个面向对象编程语言中的一个类。它是一个概念，只要是一个独立的软件模块即可。</p>
+<h2 id="用例-UseCase"><a href="#用例-UseCase" class="headerlink" title="用例 UseCase"></a>用例 UseCase</h2><h3 id="用例是什么？"><a href="#用例是什么？" class="headerlink" title="用例是什么？"></a>用例是什么？</h3><blockquote>
+<p>用例本质上就是关于如何操作一个自动化系统的描述，它定义了用户需要提供的输入数据、用户应该得到的输出信息以及产生输出所应该采取的处理步骤。当然，用例所描述的是某种特定应用情景下的业务逻辑，它并非业务实体中所包含的关键业务逻辑。</p>
+</blockquote>
+<p>martin在这里举了一个银行为新贷款收集客户联系信息的用例，该用例有输入，输出，还定义了该情景下的业务逻辑。其中还调用到了关键业务实体“客户”，这里的客户就是一个业务实体，其中包含了处理银行与客户之间关系的关键业务逻辑。</p>
+<blockquote>
+<p>用例中包含了对如何调用业务实体中的关键业务逻辑的定义。简而言之，用例控制着业务实体之间的交互方式。</p>
+</blockquote>
+<p>我还是以直播app为例，“频道”是一个业务实体，“主播开播”我觉得就可以认为是一个用例。</p>
+<ul>
+<li>输入是主播提供的开播标题、封面等，</li>
+<li>输出是进入一个频道内（若首次开播，可能会先创建该频道），然后开始音视频推流直播。</li>
+<li>该情景下的业务逻辑可能是：检查输入信息合法；检查频道是否存在，新建or进入频道；进入成功后，通知媒体系统开始推流；<br>这个用例里就控制了“频道”、“媒体系统”等实体的交互，共同完成了开播这个用例的功能。</li>
+</ul>
+<h3 id="用例包含什么，不包含什么"><a href="#用例包含什么，不包含什么" class="headerlink" title="用例包含什么，不包含什么"></a>用例包含什么，不包含什么</h3><blockquote>
+<p>用例并不描述系统与用户之间的接口，它只描述该应用在某些特定情景下的业务逻辑，这些业务逻辑所规范的是用户与业务实体之间的交互方式，它与数据流入&#x2F;流出系统的方式无关。</p>
+</blockquote>
+<p>所以我们只看用例，是没有办法看出系统是在什么平台交付的，如web，手机，或者是命令行模式。即用例不包括数据输入、输出和具体系统平台的接口描述。</p>
+<blockquote>
+<p>用例对象中包含了一个或多个实现了特定应用情景的业务逻辑函数。当然除此之外，用例对象中也包含了输入数据、输出数据以及相关业务实体的引用，以方便调用。</p>
+</blockquote>
+<p>这就是用例应该包含的内容。</p>
+<h3 id="实体和用例的依赖关系"><a href="#实体和用例的依赖关系" class="headerlink" title="实体和用例的依赖关系"></a>实体和用例的依赖关系</h3><blockquote>
+<p>业务实体这样的高层概念是无须了解像用例这样的低层概念的。反之，低层的业务用例却需要了解高层的业务实体。<br>那么，为什么业务实体属于高层概念，而用例输入低层概念呢？因为用例描述的是一个特定的应用情景，这样一来，用例必然会更靠近系统的输入和输出。而业务实体是一个可以适用于多个应用情景下的一般化概念，相对地离系统的输入和输出更远。所以，用例依赖业务实体，而业务实体却并不依赖于用例。</p>
+</blockquote>
+<p>还是以前面的“开播”和“频道”来理解，“开播”用例是直播app下的一个特定应用情景，需要关联着用户输入开播参数，开播后的输出推流状态等。而“频道”业务实体，是一个更一般化的概念，进出频道，频道状态变化等，都离具体的用户输入、效果展示输出更远。所以，“开播”会依赖到“频道”，而“频道”却不会依赖“开播”。</p>
+<h2 id="请求和响应模型"><a href="#请求和响应模型" class="headerlink" title="请求和响应模型"></a>请求和响应模型</h2><blockquote>
+<p>在通常情况下，用例会接收输入数据，并产生输出数据。但在一个设计良好的架构中，用例对象通常不应该知道数据展现给用户或其他组件的方式。很显然，我们当然不会希望这些用例类中的代码出现HTML和SQL。<br>因此，用例类所接收的输入应该是一个简单的请求性数据结构，而返回输出的应该是一个简单的响应性数据结构。这些数据结构中不应该存在任何依赖关系，它们并不派生自HttpRequest和HttpResponse这样的标准框架接口。这些数据应该与web无关，也不应该了解任何有关用户界面的细节。<br>这种独立性非常关键，如果这里的请求和响应模型不是完全独立的，那么用到这些模型的用例就会依赖于这些模型所带来的各种依赖关系。</p>
+</blockquote>
+<p>用例的输入、输出模型要简单，就是一个类似java中的POJO对象，无其他任何依赖关系。</p>
+<blockquote>
+<p>可能有些读者会选择直接中数据结构中使用对业务实体对象的引用。毕竟，业务实体与请求&#x2F;响应模型之间有很多相同的数据。但请一定不要这样做！这两个对象存在的意义是非常、非常不一样的。随着时间的推移，这两个对象会以不同的原因，不同的速率发生变更。所以将它们以任何形式整合在一起都是对共同必包原则（CCP）和单一职责原则（SRP）的违反。这样做的后果，往往会导致代码中出现很多分支判断语句和中间数据。</p>
+</blockquote>
+<p>martin在这本书里多个地方提到架构设计需要将“以不同原因，不同速率发生变更”的对象隔离开。CCP原则（见书第13章共同必包原则）和SRP（单一职责原则）可以用一句话来概括：</p>
+<p><em><strong>将由于相同原因而修改，并且需要同时修改的东西放在一起。将由于不同原因而修改，并且不同时修改的东西分开。</strong></em></p>
+<h2 id="本章小结"><a href="#本章小结" class="headerlink" title="本章小结"></a>本章小结</h2><blockquote>
+<p>业务逻辑是一个软件系统存在的意义，它们属于核心功能，是系统用来赚钱或省钱的那部分代码，是整个系统中的皇冠明珠。<br>这些业务逻辑应该保持纯净，不要掺杂用户界面或者所使用的数据库相关的东西。在理想情况下，这部分代表业务的代码应该是整个系统的核心，其他低层概念的实现应该以插件形式接入系统中。业务逻辑应该是系统中最独立、复用性最高的代码。</p>
+</blockquote>
+<p>回想经历过的项目中，最近负责的一个代码复用项目确实正如上述这段内容描述一般，保持纯业务逻辑，所依赖的外部实现均以接口注入方法接入。所以这个模块也得以在多个项目中复用。就是一个典型的例子。<br>面对一个项目，最重要的是先找出其核心业务逻辑、核心功能来。识别出其中的业务实体 和 用例，把业务逻辑层设计好，整体系统设计就成功了一半了。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://kmfish.github.io">kmfish</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://kmfish.github.io/2019/07/28/clean-architecture-business-logic/">http://kmfish.github.io/2019/07/28/clean-architecture-business-logic/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/architecture/">architecture</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2017/08/29/livedata-lifecycle/" title="LifyCycle 的思考"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">LifyCycle 的思考</div></div><div class="info-2"><div class="info-item-1">LifyCycle 的思考 大纲google 的LifeCycle、 livedataglide里的 lifeCycleListener 也是一样的实现分析下原理，对比下两者。自己的组件怎么使用这个东西   Android architecture components在包 android.arch.lifecycle 包下新增了一些组件，几个核心的包括 LifeCycle, LiveData, ViewModel我们先重点关注下 LifeCycle开头的这几个。Interfaces:LifecycleObserverLifecycleOwnerLifecycleRegistryOwner Classes: 处理生命周期LifecycleLifecycle is a class that holds the information about the lifecycle state of a component (like an activity or a fragment) and allows other objects to observe this...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kmfish</div><div class="author-info-description">记录我的技术与生活</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E9%80%BB%E8%BE%91"><span class="toc-number">2.</span> <span class="toc-text">业务逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%9A%E5%8A%A1%E5%AE%9E%E4%BD%93"><span class="toc-number">2.1.</span> <span class="toc-text">业务实体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B-UseCase"><span class="toc-number">2.2.</span> <span class="toc-text">用例 UseCase</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.2.1.</span> <span class="toc-text">用例是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88%EF%BC%8C%E4%B8%8D%E5%8C%85%E5%90%AB%E4%BB%80%E4%B9%88"><span class="toc-number">2.2.2.</span> <span class="toc-text">用例包含什么，不包含什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E5%92%8C%E7%94%A8%E4%BE%8B%E7%9A%84%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="toc-number">2.2.3.</span> <span class="toc-text">实体和用例的依赖关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.3.</span> <span class="toc-text">请求和响应模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E7%AB%A0%E5%B0%8F%E7%BB%93"><span class="toc-number">2.4.</span> <span class="toc-text">本章小结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/07/28/clean-architecture-business-logic/" title="《Clean Architecture》读书笔记 - 业务逻辑">《Clean Architecture》读书笔记 - 业务逻辑</a><time datetime="2019-07-28T15:45:46.000Z" title="Created 2019-07-28 23:45:46">2019-07-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/08/29/livedata-lifecycle/" title="LifyCycle 的思考">LifyCycle 的思考</a><time datetime="2017-08-28T16:46:56.000Z" title="Created 2017-08-29 00:46:56">2017-08-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/02/25/faceclipper/" title="一个有趣的需求实现过程：人脸表情包制作">一个有趣的需求实现过程：人脸表情包制作</a><time datetime="2017-02-24T16:48:12.000Z" title="Created 2017-02-25 00:48:12">2017-02-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" title="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</a><time datetime="2016-12-21T11:16:18.000Z" title="Created 2016-12-21 19:16:18">2016-12-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" title="修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</a><time datetime="2016-05-26T08:19:27.000Z" title="Created 2016-05-26 16:19:27">2016-05-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By kmfish</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>通过flatmap组合多个SqlBrite的QueryObservable 使用的问题 | 昆明鱼</title><meta name="author" content="kmfish"><meta name="copyright" content="kmfish"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="阅读背景SqlBrite  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">
+<meta property="og:url" content="http://kmfish.github.io/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/index.html">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="阅读背景SqlBrite  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。">
+<meta property="og:locale">
+<meta property="og:image" content="http://kmfish.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2016-12-21T11:16:18.000Z">
+<meta property="article:modified_time" content="2025-05-20T06:31:21.797Z">
+<meta property="article:author" content="kmfish">
+<meta property="article:tag" content="SqlBrite">
+<meta property="article:tag" content="RxJava">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://kmfish.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "通过flatmap组合多个SqlBrite的QueryObservable 使用的问题",
+  "url": "http://kmfish.github.io/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/",
+  "image": "http://kmfish.github.io/img/butterfly-icon.png",
+  "datePublished": "2016-12-21T11:16:18.000Z",
+  "dateModified": "2025-05-20T06:31:21.797Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kmfish",
+      "url": "http://kmfish.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://kmfish.github.io/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '通过flatmap组合多个SqlBrite的QueryObservable 使用的问题',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">昆明鱼</span></a><a class="nav-page-title" href="/"><span class="site-name">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2016-12-21T11:16:18.000Z" title="Created 2016-12-21 19:16:18">2016-12-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-05-20T06:31:21.797Z" title="Updated 2025-05-20 14:31:21">2025-05-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="阅读背景"><a href="#阅读背景" class="headerlink" title="阅读背景"></a>阅读背景</h1><p><a target="_blank" rel="noopener" href="https://github.com/square/sqlbrite">SqlBrite</a>  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。</p>
+<span id="more"></span>
+
+<p>自定义的词汇含义：</p>
+<ul>
+<li>订阅链、事件流： 这是指任意个Observable组合后，最终被某个Subscriber订阅时，所确定的一条订阅关系链。<br>如：　<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> ObservableA.flatMap(ObservableB)</span><br><span class="line">                        .flatMap(ObservableC)</span><br><span class="line">                       .subscribe(<span class="keyword">new</span> <span class="title class_">Subscriber</span>&lt;T&gt;() &#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h1><p>我们最近的一个项目中使用了SqlBrite  + SqlDelight框架 来实现我们的数据库层。同时也使用了RxJava。所以在项目代码中，有许多针对数据库操作的接口都是以Observable方式返回的，就自然的出现了一些以各种方式组合多个QueryObservable，再提供给外层的Subscriber订阅的情况。如下例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">queryA.flatMap(<span class="keyword">new</span> <span class="title class_">Func1</span>&lt;String, Observable&lt;String&gt;&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> Observable&lt;String&gt; <span class="title function_">call</span><span class="params">(String s)</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> getQueryB(s);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;).flatMap(<span class="keyword">new</span> <span class="title class_">Func1</span>&lt;String, Observable&lt;String&gt;&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> Observable&lt;String&gt; <span class="title function_">call</span><span class="params">(String s)</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> getQueryC(s);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;).subcribe(<span class="keyword">new</span> <span class="title class_">Action1</span>(String str) &#123;</span><br><span class="line">	  <span class="comment">// update UI</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> QueryObservable <span class="title function_">getQueryB</span><span class="params">(String params)</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> britedatabase.createQuery(....);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> QueryObservable <span class="title function_">getQueryC</span><span class="params">(String params)</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> britedatabase.createQuery(....);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述代码段中的queryA、queryB、queryC均是使用SqlBrite的createQuery接口返回的QueryObservable，所以它们均具有一直订阅着自己关注表的变更的特性（假设它们分别查询了A、B、C三张表）。咋看之下，这个流程似乎也没什么问题，我们的代码一开始也就是这样写的了。但后来遇到些数据错乱的情况时，才定位到这个问题。<br>设想这样的流程：</p>
+<ol>
+<li>当完成对这个事件流的订阅后，A表发生了1次变化，则queryA会发射1个数据到流里，那么接下来的getQueryB、getQueryC 方法均会执行1次，又由于createQuery每次都会创建QueryOBservable的实例，所以getQueryB执行1次，就创建了1个QueryObservableB的实例了，getQueryC同理，然后subcriber处会接收到1次数据。</li>
+<li>经过1之后，此时B表发生 了1次变化，那么getQueryC会执行一次，subscriber会收到1次事件，真的是这样吗？结论肯定是NO了。实际测试发现，此时subcriber会收到2次数据。</li>
+</ol>
+<h1 id="追根溯源"><a href="#追根溯源" class="headerlink" title="追根溯源"></a>追根溯源</h1><p>有点摸不着头脑了吧，我们再回顾之前的流程，会发现getQueryB 方法在整个流程中执行了2遍，说明创建了两个QueryObservableB的实例。当B表变化时，看起来像是这两个queryB的实例接收到了SqlBrite发射的数据了。<br>那究竟这两个queryB被谁订阅了呢？这就需要去看下RxJava的源码了，queryA和 getQueryB 是使用了flatMap操作符来连接的，所以我们看一下flatMap的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; Observable&lt;R&gt; <span class="title function_">flatMap</span><span class="params">(Func1&lt;? <span class="built_in">super</span> T, ? extends Observable&lt;? extends R&gt;&gt; func)</span> &#123;</span><br><span class="line">	<span class="keyword">if</span> (getClass() == ScalarSynchronousObservable.class) &#123;</span><br><span class="line">		<span class="keyword">return</span> ((ScalarSynchronousObservable&lt;T&gt;)<span class="built_in">this</span>).scalarFlatMap(func);</span><br><span class="line">	&#125;</span><br><span class="line">       <span class="comment">// 重点就在这一行了，我们可以发现flatMap其实就是先map，然后再merge</span></span><br><span class="line">	<span class="keyword">return</span> merge(map(func));   </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; Observable&lt;R&gt; <span class="title function_">map</span><span class="params">(Func1&lt;? <span class="built_in">super</span> T, ? extends R&gt; func)</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> create(<span class="keyword">new</span> <span class="title class_">OnSubscribeMap</span>&lt;T, R&gt;(<span class="built_in">this</span>, func));  <span class="comment">//  map的实现就是OnSubscribeMap，其实就是包装了一个内部订阅者来订阅上游的Observable，当收到上游的数据时，执行func来转换数据类型，再发射新数据给下游订阅者。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">OperatorMerge</span>&lt;T&gt; <span class="keyword">implements</span> <span class="title class_">Operator</span>&lt;T, Observable&lt;? <span class="keyword">extends</span> <span class="title class_">T</span>&gt;&gt; &#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">MergeSubscriber</span>&lt;T&gt; <span class="keyword">extends</span> <span class="title class_">Subscriber</span>&lt;Observable&lt;? <span class="keyword">extends</span> <span class="title class_">T</span>&gt;&gt; &#123;</span><br><span class="line">         .. .</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onNext</span><span class="params">(Observable&lt;? extends T&gt; t)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (t == <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (t == Observable.empty()) &#123;</span><br><span class="line">                emitEmpty();</span><br><span class="line">            &#125; <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">if</span> (t <span class="keyword">instanceof</span> ScalarSynchronousObservable) &#123;</span><br><span class="line">                tryEmit(((ScalarSynchronousObservable&lt;? <span class="keyword">extends</span> <span class="title class_">T</span>&gt;)t).get());</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                InnerSubscriber&lt;T&gt; inner = <span class="keyword">new</span> <span class="title class_">InnerSubscriber</span>&lt;T&gt;(<span class="built_in">this</span>, uniqueId++);     <span class="comment">// 可以看到这里有个InnerSubscriber</span></span><br><span class="line">                addInner(inner);</span><br><span class="line">                t.unsafeSubscribe(inner);</span><br><span class="line">                emit();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>merge 操作符由于其代码比较多且有些复杂，我也只是简单分析了下，其内部使用了一个MergeSubscriber来代理上游的数据，然后让下游订阅它。<br>MergeSubscriber内部使用了InnerSubscriber的集合来订阅从上游接收到的每个Observable，然后再把接收的具体的data依次发射到下游，可以参考<br><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/wiki/ReactiveX/RxJava/images/rx-operators/merge.oo.png">merge的弹珠图</a><br><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/wiki/ReactiveX/RxJava/images/rx-operators/flatMap.png">flatMap的弹珠图</a></p>
+<p>经过对flatMap的分析，我们可以知道queryA发射数据，然后map操作符内部订阅了queryA，经过func转换后发射了多个QueryObservableB给merge操作符（因为这个func1是从String –&gt; Observable<String>），merge操作符会在内部分别订阅收到的多个QueryOBservableB。分析到这里，就明白了我们的场景下，两个QueryOBservableB的实例都是被merge操作符给订阅了，所以当B表变化，SqlBrite会发射数据给到这两个queryB，从而最终传递到subscriber处，就得到了2次数据。</p>
+<h1 id="解决方案探讨"><a href="#解决方案探讨" class="headerlink" title="解决方案探讨"></a>解决方案探讨</h1><p>针对这个问题，我们尝试了几种解决思路：</p>
+<ul>
+<li>避免这样的多个QueryObservable通过flatMap连接的情况，直接通过sql语句来做联合查询。<br>这样是回避了问题场景，但也确实有一些场景下还是会需要组合多个QueryObservable的，如先queryA，然后再到Server上查询一个结果b，最后再拿b去作为queryC的查询参数，这种情况下，queryA、queryC还是需要连接在一个事件流中了。</li>
+<li>当多个QueryObservable连接时，从第二个开始的query，均不再监听表的变化，如添加一个 .first()。但这样的话，若B、C表将来变化时，最终的subcriber是不会更新的。又考虑，可以在queryA里去监听整个事件流中涉及到的所有DB table，无论任何一张表变化，整个事件流均重新query一遍。但再一细想，这个做法也是不行的，queryA根本不可能掌握到整个事件流里到底需要监听哪些表，因为queryB、queryC并没有暴露这个信息，除非去看queryB、queryC的实现，但那样又都全部耦合了。而且queryA、queryB、queryC这样的方式，还有一个好处就是一个QueryObservable可以被复用，根据需要，既可以独立使用，也可以结合其他的query组合使用，而2方案的话，也会破坏这个特性了。</li>
+</ul>
+<h1 id="我们采用的方案"><a href="#我们采用的方案" class="headerlink" title="我们采用的方案"></a>我们采用的方案</h1><p>实现一个QueryObservableManager对象，来统一管理每次事件流中的QueryObservable的订阅，其内部维护一个当前事件流中已有的query订阅关系集合。对原始的createQuery生成的QueryObservable进行一层装饰，由调用者传递一个context参数，用来唯一标识出一个事件流中的一个QueryObservable。当DecorationObservable被订阅时，根据context查询，把之前存在的订阅关系进行退订。DecorationObservable内部再订阅raw query Observable。这让最终流的订阅者增加了两个因素的变化，一个是QueryObservableManager，一个是context参数。</p>
+<ul>
+<li><p>如何标识一个QueryObservable的订阅<br>通过分析，如果针对单个订阅链使用一个QueryObservableManager，那么在一个事件链中的不同QueryObservable可以利用return 该Observable的Method栈信息(StackTraceElement)来做context，来唯一标识。如上文例子的 getQueryB 这个方法。因为之前提到，getQueryB是可以复用的，在不同的订阅链中都可能出现，所以在不同订阅链的情况下，就不能仅仅以方法调用栈来标识了（此时两个实例的method栈信息是一样的，但其实是需要同时保持两个订阅的）。但对于一个订阅链来说，出现两个相同的栈时，意味着有多个相同的query被订阅了，此时就需要把之前的query给退订，保留最后一次订阅。一句话，<strong>一个订阅链中，同一个getQuery 方法的Observable订阅只能保持一个。</strong> 所以，这个context就不用外部传了，直接在QueryObservableManager 内部来确定即可。</p>
+</li>
+<li><p>如何在一个订阅链中，使用一个QueryObservableManager ？<br>通过将所有的类似 getQueryB的方法，均增加一个参数QueryObservableManager，在最终Observable被订阅时，由订阅者构造一个QueryObservableManager 实例，从而保证了在一个订阅链中，使用的都是同一个QueryObservableManager 对象。</p>
+</li>
+</ul>
+<h1 id="Demo测试项目"><a href="#Demo测试项目" class="headerlink" title="Demo测试项目"></a>Demo测试项目</h1><p><a target="_blank" rel="noopener" href="https://github.com/kmfish/TestSqlBriteDemo/blob/master/app/src/main/java/sqlbrite/demos/yy/com/sqlbrite/db/BriteQueryObservableFactory.java">QueryObservableManage实现</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/kmfish/TestSqlBriteDemo">Demo 项目</a></p>
+<h1 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h1><p><a target="_blank" rel="noopener" href="https://github.com/square/sqlbrite/issues/102">SqlBrite项目主页上也有人遇到这个问题了</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://kmfish.github.io">kmfish</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://kmfish.github.io/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/">http://kmfish.github.io/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/SqlBrite/">SqlBrite</a><a class="post-meta__tags" href="/tags/RxJava/">RxJava</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" title="修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</div></div><div class="info-2"><div class="info-item-1">起因基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。   发现问题今天先操作进入一个房间后，使用android的traceview跟踪了一段2s左右的cpu使用数据，然后通过traceview对其进行分析。   如图一所示，左边列出了该时间段内的线程，右边则图形化的显示了它们的cpu使用情况。很直观的能够发现，”GroupMsgTransport”这个线程几乎一直在占用cpu，比main线程还多的多。所以首先引起怀疑。   再进一步查看详细的cpu使用情况，发现占用cpu time最多的几项都是在对一个BlockingQueue的操作，选择这些行之后，也定位到了 “GroupMsgTransport”线程。说明这条线程一直在对Queue执行poll操作。通过在代码中搜索关键字，查找到了这个罪魁祸首。 定位原因最终定位到这段问题代码： 123456789101112131415@Override     public void run() &#123;        ...</div></div></div></a><a class="pagination-related" href="/2017/02/25/faceclipper/" title="一个有趣的需求实现过程：人脸表情包制作"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">一个有趣的需求实现过程：人脸表情包制作</div></div><div class="info-2"><div class="info-item-1">需求产品有个需求是使用用户上传的照片，自动生成目前比较火的表情包，如下图：    技术点 人脸识别，这是购买别人的SDK实现的啦 。 图像的处理，抠图、图像变换、裁剪、叠加到背景等。  实现过程简单分析了下，要实现这个效果，也有几个关键点要处理好：  图像灰度、亮度、对比度的调整 脸部区域扣取和边缘模糊  当然，如果要进一步优化下去，也有很多的细节了：  人脸方向和背景不一致，则需要调整 人脸背景色和表情背景色不一致的情况，要调整； 人脸图像大小和位置也需要调整。。。先从基础的这几个点介绍下吧。  图像效果处理这里我使用了GPUImage的滤镜，可以很方便的对原图进行处理。GPUImageGrayscaleFilter GPUImageContrastFilter GPUImageBrightnessFilter 组合使用这三个滤镜，完成灰度、对比度、亮度的调整即可。 脸部区域扣取和边缘模糊 计算脸部区域合适的Path根据识别SDK给出的人脸五官部位的特征点，来构造一个脸部五官区域的Path。这个Path的计算也经历了几个尝试，主要以两眉和嘴的坐标点来计算，最后的方案是...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kmfish</div><div class="author-info-description">记录我的技术与生活</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%98%85%E8%AF%BB%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">阅读背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">问题背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%BD%E6%A0%B9%E6%BA%AF%E6%BA%90"><span class="toc-number">3.</span> <span class="toc-text">追根溯源</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%8E%A2%E8%AE%A8"><span class="toc-number">4.</span> <span class="toc-text">解决方案探讨</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E9%87%87%E7%94%A8%E7%9A%84%E6%96%B9%E6%A1%88"><span class="toc-number">5.</span> <span class="toc-text">我们采用的方案</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Demo%E6%B5%8B%E8%AF%95%E9%A1%B9%E7%9B%AE"><span class="toc-number">6.</span> <span class="toc-text">Demo测试项目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="toc-number">7.</span> <span class="toc-text">相关链接</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/07/28/clean-architecture-business-logic/" title="《Clean Architecture》读书笔记 - 业务逻辑">《Clean Architecture》读书笔记 - 业务逻辑</a><time datetime="2019-07-28T15:45:46.000Z" title="Created 2019-07-28 23:45:46">2019-07-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/08/29/livedata-lifecycle/" title="LifyCycle 的思考">LifyCycle 的思考</a><time datetime="2017-08-28T16:46:56.000Z" title="Created 2017-08-29 00:46:56">2017-08-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/02/25/faceclipper/" title="一个有趣的需求实现过程：人脸表情包制作">一个有趣的需求实现过程：人脸表情包制作</a><time datetime="2017-02-24T16:48:12.000Z" title="Created 2017-02-25 00:48:12">2017-02-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" title="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</a><time datetime="2016-12-21T11:16:18.000Z" title="Created 2016-12-21 19:16:18">2016-12-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" title="修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</a><time datetime="2016-05-26T08:19:27.000Z" title="Created 2016-05-26 16:19:27">2016-05-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By kmfish</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

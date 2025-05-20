@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug | 昆明鱼</title><meta name="author" content="kmfish"><meta name="copyright" content="kmfish"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="起因基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug">
+<meta property="og:url" content="http://kmfish.github.io/2016/05/26/fix-while-loop-cpu-use-problem-md/index.html">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="起因基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。">
+<meta property="og:locale">
+<meta property="og:image" content="http://kmfish.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2016-05-26T08:19:27.000Z">
+<meta property="article:modified_time" content="2025-05-20T06:31:21.799Z">
+<meta property="article:author" content="kmfish">
+<meta property="article:tag" content="性能优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://kmfish.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug",
+  "url": "http://kmfish.github.io/2016/05/26/fix-while-loop-cpu-use-problem-md/",
+  "image": "http://kmfish.github.io/img/butterfly-icon.png",
+  "datePublished": "2016-05-26T08:19:27.000Z",
+  "dateModified": "2025-05-20T06:31:21.799Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kmfish",
+      "url": "http://kmfish.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://kmfish.github.io/2016/05/26/fix-while-loop-cpu-use-problem-md/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">昆明鱼</span></a><a class="nav-page-title" href="/"><span class="site-name">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2016-05-26T08:19:27.000Z" title="Created 2016-05-26 16:19:27">2016-05-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-05-20T06:31:21.799Z" title="Updated 2025-05-20 14:31:21">2025-05-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>基于部分用户反馈使用我们的app时，玩游戏过程中会有卡顿现象出现，从而进行cpu使用率排查。</p>
+<span id="more"></span>
+
+<h1 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h1><p>今天先操作进入一个房间后，使用android的traceview跟踪了一段2s左右的cpu使用数据，然后通过traceview对其进行分析。</p>
+<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post1.png" class="" title="图一">
+
+<p>如图一所示，左边列出了该时间段内的线程，右边则图形化的显示了它们的cpu使用情况。很直观的能够发现，”GroupMsgTransport”这个线程几乎一直在占用cpu，比main线程还多的多。所以首先引起怀疑。</p>
+<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post2.png" class="" title="图二">
+
+<p>再进一步查看详细的cpu使用情况，发现占用cpu time最多的几项都是在对一个BlockingQueue的操作，选择这些行之后，也定位到了 “GroupMsgTransport”线程。说明这条线程一直在对Queue执行poll操作。通过在代码中搜索关键字，查找到了这个罪魁祸首。</p>
+<h1 id="定位原因"><a href="#定位原因" class="headerlink" title="定位原因"></a>定位原因</h1><p>最终定位到这段问题代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">         android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);</span><br><span class="line"></span><br><span class="line">         <span class="keyword">while</span> (run) &#123;</span><br><span class="line">             <span class="keyword">final</span> ImGroupMsgInfo info;</span><br><span class="line">             info = mMQ.poll();    <span class="comment">// 罪魁祸首的一行， poll()方法在队列为空时会return null，从而就导致该循环无限执行下去，空耗了cpu</span></span><br><span class="line">             <span class="keyword">if</span> (info != <span class="literal">null</span>) &#123;</span><br><span class="line">                      <span class="comment">//...</span></span><br><span class="line">             &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                     <span class="comment">// do nothing</span></span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<h1 id="修复"><a href="#修复" class="headerlink" title="修复"></a>修复</h1><p>知道了根本原因后，修复的方法也很简单，将poll换为take() 即可，take方法在队列为空时会block住当前thread，从而不再占用cpu。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">     <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">         android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);</span><br><span class="line"></span><br><span class="line">         <span class="keyword">while</span> (run) &#123;</span><br><span class="line">            <span class="type">ImGroupMsgInfo</span> <span class="variable">msgInfo</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                msgInfo = mMQ.take(); <span class="comment">// 修改此处为take()</span></span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                MLog.error(TAG, e);</span><br><span class="line">            &#125;</span><br><span class="line"> </span><br><span class="line">             <span class="keyword">final</span> <span class="type">ImGroupMsgInfo</span> <span class="variable">info</span> <span class="operator">=</span> msgInfo; </span><br><span class="line">             <span class="keyword">if</span> (info != <span class="literal">null</span>) &#123;</span><br><span class="line">                      <span class="comment">//...</span></span><br><span class="line">             &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                     <span class="comment">// do nothing</span></span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="结果对比"><a href="#结果对比" class="headerlink" title="结果对比"></a>结果对比</h1><p>修改之前，cpu占用高达近50%：</p>
+<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post3.png" class="" title="图三">
+<p>修改之后，cpu占用不到10%：</p>
+<img src="/2016/05/26/fix-while-loop-cpu-use-problem-md/post4.png" class="" title="图四">
+
+
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>在修复了这一处问题后，又继续在项目里搜索了下使用poll()的地方，结果就又发现了一处一模一样的bug。。。<br>以后可以多留意while(true)循环，要注意循环是否有正确的退出时机，或block的时机，避免出现类似问题。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://kmfish.github.io">kmfish</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://kmfish.github.io/2016/05/26/fix-while-loop-cpu-use-problem-md/">http://kmfish.github.io/2016/05/26/fix-while-loop-cpu-use-problem-md/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a></div><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2016/01/17/change-to-hexo/" title="切换到Hexo + GithubPages"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">切换到Hexo + GithubPages</div></div><div class="info-2"><div class="info-item-1">博客之前用的是sina的SAE + press，也一直还不错。其实最早一开始用的是AWS的EC2，但连接速度实在太慢，才换到SAE的。然后参加活动获得了一些云豆，本以为够用蛮久的，结果最近一两个月，突然的访问把云豆都用光了。于是，就打算切换到githubpages上，昨晚在网上看了下hexo来搭建博客，看上去蛮不错的，于是就切换过来了。这次应该就不怕流量用完了，而且hexo的使用也蛮方便的，网上的各种资料也挺多，感谢这些作者，给大家带来了便利。 </div></div></div></a><a class="pagination-related" href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" title="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</div></div><div class="info-2"><div class="info-item-1">阅读背景SqlBrite  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。   自定义的词汇含义：  订阅链、事件流： 这是指任意个Observable组合后，最终被某个Subscriber订阅时，所确定的一条订阅关系链。如：　12345 ObservableA.flatMap(ObservableB)                        .flatMap(ObservableC)                       .subscribe(new Subscriber&lt;T&gt;() &#123;...&#125;  问题背景我们最近的一个项目中使用了SqlBrite  + SqlDelight框架...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kmfish</div><div class="author-info-description">记录我的技术与生活</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%91%E7%8E%B0%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">发现问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E4%BD%8D%E5%8E%9F%E5%9B%A0"><span class="toc-number">3.</span> <span class="toc-text">定位原因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D"><span class="toc-number">4.</span> <span class="toc-text">修复</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C%E5%AF%B9%E6%AF%94"><span class="toc-number">5.</span> <span class="toc-text">结果对比</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">6.</span> <span class="toc-text">后记</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/07/28/clean-architecture-business-logic/" title="《Clean Architecture》读书笔记 - 业务逻辑">《Clean Architecture》读书笔记 - 业务逻辑</a><time datetime="2019-07-28T15:45:46.000Z" title="Created 2019-07-28 23:45:46">2019-07-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/08/29/livedata-lifecycle/" title="LifyCycle 的思考">LifyCycle 的思考</a><time datetime="2017-08-28T16:46:56.000Z" title="Created 2017-08-29 00:46:56">2017-08-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/02/25/faceclipper/" title="一个有趣的需求实现过程：人脸表情包制作">一个有趣的需求实现过程：人脸表情包制作</a><time datetime="2017-02-24T16:48:12.000Z" title="Created 2017-02-25 00:48:12">2017-02-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" title="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</a><time datetime="2016-12-21T11:16:18.000Z" title="Created 2016-12-21 19:16:18">2016-12-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" title="修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</a><time datetime="2016-05-26T08:19:27.000Z" title="Created 2016-05-26 16:19:27">2016-05-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By kmfish</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

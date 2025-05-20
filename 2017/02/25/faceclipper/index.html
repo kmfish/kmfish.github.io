@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>一个有趣的需求实现过程：人脸表情包制作 | 昆明鱼</title><meta name="author" content="kmfish"><meta name="copyright" content="kmfish"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="需求产品有个需求是使用用户上传的照片，自动生成目前比较火的表情包，如下图：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个有趣的需求实现过程：人脸表情包制作">
+<meta property="og:url" content="http://kmfish.github.io/2017/02/25/faceclipper/index.html">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="需求产品有个需求是使用用户上传的照片，自动生成目前比较火的表情包，如下图：">
+<meta property="og:locale">
+<meta property="og:image" content="http://kmfish.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2017-02-24T16:48:12.000Z">
+<meta property="article:modified_time" content="2025-05-20T06:31:21.797Z">
+<meta property="article:author" content="kmfish">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://kmfish.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "一个有趣的需求实现过程：人脸表情包制作",
+  "url": "http://kmfish.github.io/2017/02/25/faceclipper/",
+  "image": "http://kmfish.github.io/img/butterfly-icon.png",
+  "datePublished": "2017-02-24T16:48:12.000Z",
+  "dateModified": "2025-05-20T06:31:21.797Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kmfish",
+      "url": "http://kmfish.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://kmfish.github.io/2017/02/25/faceclipper/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '一个有趣的需求实现过程：人脸表情包制作',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">昆明鱼</span></a><a class="nav-page-title" href="/"><span class="site-name">一个有趣的需求实现过程：人脸表情包制作</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">一个有趣的需求实现过程：人脸表情包制作</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2017-02-24T16:48:12.000Z" title="Created 2017-02-25 00:48:12">2017-02-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-05-20T06:31:21.797Z" title="Updated 2025-05-20 14:31:21">2025-05-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>产品有个需求是使用用户上传的照片，自动生成目前比较火的表情包，如下图：</p>
+<img src="/2017/02/25/faceclipper/face1.png" class="" title="图一">
+<span id="more"></span>
+
+<h1 id="技术点"><a href="#技术点" class="headerlink" title="技术点"></a>技术点</h1><ol>
+<li>人脸识别，这是购买别人的SDK实现的啦 。</li>
+<li>图像的处理，抠图、图像变换、裁剪、叠加到背景等。</li>
+</ol>
+<h1 id="实现过程"><a href="#实现过程" class="headerlink" title="实现过程"></a>实现过程</h1><p>简单分析了下，要实现这个效果，也有几个关键点要处理好：</p>
+<ul>
+<li>图像灰度、亮度、对比度的调整</li>
+<li>脸部区域扣取和边缘模糊</li>
+</ul>
+<p>当然，如果要进一步优化下去，也有很多的细节了：</p>
+<ul>
+<li>人脸方向和背景不一致，则需要调整</li>
+<li>人脸背景色和表情背景色不一致的情况，要调整；</li>
+<li>人脸图像大小和位置也需要调整<br>。。。<br>先从基础的这几个点介绍下吧。</li>
+</ul>
+<h2 id="图像效果处理"><a href="#图像效果处理" class="headerlink" title="图像效果处理"></a>图像效果处理</h2><p>这里我使用了GPUImage的滤镜，可以很方便的对原图进行处理。<br>GPUImageGrayscaleFilter GPUImageContrastFilter GPUImageBrightnessFilter 组合使用这三个滤镜，完成灰度、对比度、亮度的调整即可。</p>
+<h2 id="脸部区域扣取和边缘模糊"><a href="#脸部区域扣取和边缘模糊" class="headerlink" title="脸部区域扣取和边缘模糊"></a>脸部区域扣取和边缘模糊</h2><ol>
+<li><p>计算脸部区域合适的Path<br>根据识别SDK给出的人脸五官部位的特征点，来构造一个脸部五官区域的Path。这个Path的计算也经历了几个尝试，主要以两眉和嘴的坐标点来计算，最后的方案是 左眉最左边A，嘴唇下部B，右眉最右边C，从A出发，AB、BC、CA 顺序画了三条贝塞尔曲线，来达到有弧度的边缘效果。</p>
+</li>
+<li><p>扣取该Path区域<br>一开始用了canvas.clipPath 来抠图，但发现边缘有锯齿，上网查资料得知，clipPath不能添加抗锯齿效果了，需要采用Paint 配置PorterDuffXfermode 的方式来实现。原理就是，先drawPath画一张Path区域大小的图A，然后再drawBitmap把A画到原图上去，采用PorterDuff.Mode.DST_IN 的模式即可仅保留住path的像素，去掉其余像素。关于PorterDuff模式的使用，也是有点小坑，可以参考下<a target="_blank" rel="noopener" href="http://blog.csdn.net/wingichoy/article/details/50534175">这篇blog</a>。</p>
+</li>
+<li><p>边缘模糊效果<br>如果clip的边缘没有模糊效果，那么融合到背景上去是很生硬的，所以需要添加模糊处理。在扣取这步drawPath的时候采用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paint.setMaskFilter(<span class="keyword">new</span> <span class="title class_">BlurMaskFilter</span>(EDGE_BLUR, BlurMaskFilter.Blur.NORMAL));</span><br></pre></td></tr></table></figure>
+<p>即可在path路径上增加模糊效果了。</p>
+</li>
+</ol>
+<h2 id="裁剪合适的大小"><a href="#裁剪合适的大小" class="headerlink" title="裁剪合适的大小"></a>裁剪合适的大小</h2><p>经过上述步骤后，已经得到了一个仅保留面部区域像素的bitmap（其他区域为透明），此时需要进行一次裁剪，得到一个仅面部大小的图片。在一番尝试后，最后基于path的bounds Rect，再向周围扩大一圈，来计算剪切的rect。这样可以保留住path周围的模糊边缘，才能达到更好的融合效果。</p>
+<h1 id="后续优化"><a href="#后续优化" class="headerlink" title="后续优化"></a>后续优化</h1><p>就这个功能来说，目前的效果也只是demo程度了。后续持续优化的话，可能就需要考虑人脸角度，原片亮度，背景</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://kmfish.github.io">kmfish</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://kmfish.github.io/2017/02/25/faceclipper/">http://kmfish.github.io/2017/02/25/faceclipper/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" title="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</div></div><div class="info-2"><div class="info-item-1">阅读背景SqlBrite  是Square公司提供的一个数据库轻量级的封装框架。提供了RxJava的Observable风格的DB操作接口，其中一个特性是 其query操作得到的QueryObservable会一直保持对该次查询的表后续变更的事件的订阅，后续针对同一张（或多张）表的变更，均会再次发射数据给它的Subcriber，从而可以方便的实现界面的更新。   自定义的词汇含义：  订阅链、事件流： 这是指任意个Observable组合后，最终被某个Subscriber订阅时，所确定的一条订阅关系链。如：　12345 ObservableA.flatMap(ObservableB)                        .flatMap(ObservableC)                       .subscribe(new Subscriber&lt;T&gt;() &#123;...&#125;  问题背景我们最近的一个项目中使用了SqlBrite  + SqlDelight框架...</div></div></div></a><a class="pagination-related" href="/2017/08/29/livedata-lifecycle/" title="LifyCycle 的思考"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">LifyCycle 的思考</div></div><div class="info-2"><div class="info-item-1">LifyCycle 的思考 大纲google 的LifeCycle、 livedataglide里的 lifeCycleListener 也是一样的实现分析下原理，对比下两者。自己的组件怎么使用这个东西   Android architecture components在包 android.arch.lifecycle 包下新增了一些组件，几个核心的包括 LifeCycle, LiveData, ViewModel我们先重点关注下 LifeCycle开头的这几个。Interfaces:LifecycleObserverLifecycleOwnerLifecycleRegistryOwner Classes: 处理生命周期LifecycleLifecycle is a class that holds the information about the lifecycle state of a component (like an activity or a fragment) and allows other objects to observe this...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kmfish</div><div class="author-info-description">记录我的技术与生活</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9C%80%E6%B1%82"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">技术点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">实现过程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E6%95%88%E6%9E%9C%E5%A4%84%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">图像效果处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%84%B8%E9%83%A8%E5%8C%BA%E5%9F%9F%E6%89%A3%E5%8F%96%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A8%A1%E7%B3%8A"><span class="toc-number">3.2.</span> <span class="toc-text">脸部区域扣取和边缘模糊</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%81%E5%89%AA%E5%90%88%E9%80%82%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="toc-number">3.3.</span> <span class="toc-text">裁剪合适的大小</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD%E4%BC%98%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">后续优化</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/07/28/clean-architecture-business-logic/" title="《Clean Architecture》读书笔记 - 业务逻辑">《Clean Architecture》读书笔记 - 业务逻辑</a><time datetime="2019-07-28T15:45:46.000Z" title="Created 2019-07-28 23:45:46">2019-07-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/08/29/livedata-lifecycle/" title="LifyCycle 的思考">LifyCycle 的思考</a><time datetime="2017-08-28T16:46:56.000Z" title="Created 2017-08-29 00:46:56">2017-08-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/02/25/faceclipper/" title="一个有趣的需求实现过程：人脸表情包制作">一个有趣的需求实现过程：人脸表情包制作</a><time datetime="2017-02-24T16:48:12.000Z" title="Created 2017-02-25 00:48:12">2017-02-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" title="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</a><time datetime="2016-12-21T11:16:18.000Z" title="Created 2016-12-21 19:16:18">2016-12-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" title="修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</a><time datetime="2016-05-26T08:19:27.000Z" title="Created 2016-05-26 16:19:27">2016-05-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By kmfish</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

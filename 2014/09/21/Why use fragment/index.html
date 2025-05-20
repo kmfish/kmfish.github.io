@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Why use fragment？ | 昆明鱼</title><meta name="author" content="kmfish"><meta name="copyright" content="kmfish"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="针对这个问题，在网上搜索了下，有以下一些看法：  1、fragments are more reusable than custom views.  作者认为，fragment能够封装单靠view无法处理的事。自定义控件无法处理跨activity交互等事件，还是需要靠activity来完成，这会增加custom views 和activity的耦合。不利于复用。而fragment可以封装更多的东西">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Why use fragment？">
+<meta property="og:url" content="http://kmfish.github.io/2014/09/21/Why%20use%20fragment/index.html">
+<meta property="og:site_name" content="昆明鱼">
+<meta property="og:description" content="针对这个问题，在网上搜索了下，有以下一些看法：  1、fragments are more reusable than custom views.  作者认为，fragment能够封装单靠view无法处理的事。自定义控件无法处理跨activity交互等事件，还是需要靠activity来完成，这会增加custom views 和activity的耦合。不利于复用。而fragment可以封装更多的东西">
+<meta property="og:locale">
+<meta property="og:image" content="http://kmfish.github.io/img/butterfly-icon.png">
+<meta property="article:published_time" content="2014-09-21T13:49:13.000Z">
+<meta property="article:modified_time" content="2025-05-20T06:31:21.797Z">
+<meta property="article:author" content="kmfish">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://kmfish.github.io/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Why use fragment？",
+  "url": "http://kmfish.github.io/2014/09/21/Why%20use%20fragment/",
+  "image": "http://kmfish.github.io/img/butterfly-icon.png",
+  "datePublished": "2014-09-21T13:49:13.000Z",
+  "dateModified": "2025-05-20T06:31:21.797Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "kmfish",
+      "url": "http://kmfish.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://kmfish.github.io/2014/09/21/Why%20use%20fragment/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Why use fragment？',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">昆明鱼</span></a><a class="nav-page-title" href="/"><span class="site-name">Why use fragment？</span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">Why use fragment？</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2014-09-21T13:49:13.000Z" title="Created 2014-09-21 21:49:13">2014-09-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-05-20T06:31:21.797Z" title="Updated 2025-05-20 14:31:21">2025-05-20</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>针对这个问题，在网上搜索了下，有以下一些看法：</p>
+<blockquote>
+<p>1、fragments are more reusable than custom views.</p>
+</blockquote>
+<p>作者认为，fragment能够封装单靠view无法处理的事。自定义控件无法处理跨activity交互等事件，还是需要靠activity来完成，这会增加custom views 和activity的耦合。不利于复用。而fragment可以封装更多的东西，包括AsyncTask，file and database access等。</p>
+<blockquote>
+<p>2、the main reason to use Fragments are for the backstack and lifecycle<br>features. Otherwise, custom views are more light weight, simpler to<br>implement, and have the advantage that they can be nested.<br><a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/8617696/what-is-the-benefit-of-using-fragments-in-android-rather-than-views?lq=1">see here</a></p>
+</blockquote>
+<p>主要原因是fragment提供了backstack支持界面状态的回退，以及生命周期特性。（在SDK 17 以后fragment也支持嵌套了）</p>
+<span id="more"></span>
+
+
+<ul>
+<li><p>过去的模式：<br>如果实现官方文档中的那个例子，手机版上是两个activity（列表和详情），pad版上则在同一activity下了。在fragment推出之前，我们之前的项目里也有实现过类似的需求。两个界面分别为 listView 和 detailView，则activityA里会同时持有两个view，当判断为手机版，则detailview会hide；当为pad版时，才会显示detailView。然后activityA里就会同时包含对两个的view的控制代码，当然也可以提出一个viewController来包含控制代码，activityA来引用viewController。这里的这个ViewController（或viewManager）就类似fragment。按照MVC的思想，activity其实就扮演了Controller的角色（或者再自己封装一个viewManager，但与系统的交互还是由activity来负责管理的。）</p>
+</li>
+<li><p>fragment的优点：<br>fragment同样有自己的生命周期，不用刻意担心内存泄漏的问题，而且fragment还拥有切换保留（retain）机制，可以在状态切换期间保持状态不变（如后台任务等）。另外，由于框架已经实现了对fragment的生命周期管理，所以开发时也不必在activity的生命周期回调事件代码中加入对各个组件的管理代码，代码整体更加简洁清晰。使用fragment，可以帮助开发者省下许多开发和维护的工作量。</p>
+</li>
+<li><p>自己的理解：<br>通过查看fragment提供的接口，可以发现非常类似activity的接口，可以认为fragment is a “small activity“，所以相对于使用自定义view+ 控制器的方式，使用fragment可以封装更多的和系统的交互，提供更高级的封装。自定义view仅是在视图层面的封装（能够控制view的show，hide，布局的变化等），但fragment可以提供更高层面的控制（与activity交互，状态栈回退，独立的生命周期管理）。旧的方式依然需要依赖和activity的配合才能实现这些需求（如和其他activity的交互 startActiviyForResult，就可以直接在fragment里去调用了）。从整体上看，相当于将activity和可复用组件进一步解耦了，使得组件的复用性和封装性更好。activity不用再去向内部组件通知各项事件。而组件自身封装得更加完备，内部就处理了生命周期事件以及其他与系统的交互事件。在不同activity之间的复用变得更加容易灵活。从代码层面上看，activity里的代码就会少了许多，而各fragment的代码都由自己维护了。代码结构更加清晰简洁，大大降低了维护代价，也提高了项目代码的可读性。</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="http://kmfish.github.io">kmfish</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="http://kmfish.github.io/2014/09/21/Why%20use%20fragment/">http://kmfish.github.io/2014/09/21/Why%20use%20fragment/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/img/butterfly-icon.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/?p=14" title="android camera 摄像头预览画面变形"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">android camera 摄像头预览画面变形</div></div><div class="info-2"><div class="info-item-1">问题：最近在处理一下camera的问题，发现在竖屏时预览图像会变形，而横屏时正常。但有的手机则是横竖屏都会变形。 结果：解决了预览变形的问题，同时支持前后摄像头，预览无变形，拍照生成的jpg照片方向正确。   环境 ： android studio, xiaomi m1s android4.2 miui v5 过程： 1. 预览 preview画面变形以sdk中apidemos里的camera为例，进行修改。先重现下问题，在AndroidManifest.xml中指定了activity 的screenOrientation为landspace，则预览正常。若指定为portrait，则图像会有拉伸变形。 找到正确的previewsize继续看demo代码，mCamera.getParameters().getSupportedPreviewSizes() 可以返回当前设备支持的一组previewSize，例如：  1920x1088 1280x720 800x480 768x432 720x480 640x480 576x432 480x320384x288 352x288...</div></div></div></a><a class="pagination-related" href="/2015/08/08/%E7%BB%84%E5%90%88%E8%BF%98%E6%98%AF%E7%BB%A7%E6%89%BF/" title="组合还是继承"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">组合还是继承</div></div><div class="info-2"><div class="info-item-1">如题，每天在“面向对象”的我们，也常常遇到这个选择吧。刚好看书书读到这个话题，就记录下阅读的理解。    继承要慎用，其使用场合仅限于你确信使用该技术有效的情况。一个判断方法是，问一问自己是否需要从新类向基类进行向上转型。如果是必须的，则继承是必要的。反之则应该好好考虑是否需要继承。——《java编程思想 第四版》 p140   复合优于继承 与方法调用不同的是，继承打破了封装性。换句话说，子类依赖于其超类中特定功能的实现细节。 只有当子类真正是超类的子类型时，才适合用继承。换句话说，对于两个类A和B，只有当两者之间确实存在“is-a”关系的时候，类B才应该继续类A。 为了避免这种脆弱性，可以用复合和转发机制来代替继承，尤其是当存在适当的接口可以实现包装类的时候。包装类不仅比子类更健壮，而且功能也更加强大。 ——《Effective Java》 item.16  在平时工作过程中，我自己也是更多选择组合而不是继承。但也没有个明确清晰的判断标准。和同事交流时，虽然也推荐多用组合，但也说不出个具体的缘由。平时主要是开发android...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">kmfish</div><div class="author-info-description">记录我的技术与生活</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2019/07/28/clean-architecture-business-logic/" title="《Clean Architecture》读书笔记 - 业务逻辑">《Clean Architecture》读书笔记 - 业务逻辑</a><time datetime="2019-07-28T15:45:46.000Z" title="Created 2019-07-28 23:45:46">2019-07-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/08/29/livedata-lifecycle/" title="LifyCycle 的思考">LifyCycle 的思考</a><time datetime="2017-08-28T16:46:56.000Z" title="Created 2017-08-29 00:46:56">2017-08-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2017/02/25/faceclipper/" title="一个有趣的需求实现过程：人脸表情包制作">一个有趣的需求实现过程：人脸表情包制作</a><time datetime="2017-02-24T16:48:12.000Z" title="Created 2017-02-25 00:48:12">2017-02-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/12/21/SqlBrite-flatMap-multiple-queryObservable-cause-duplicates/" title="通过flatmap组合多个SqlBrite的QueryObservable 使用的问题">通过flatmap组合多个SqlBrite的QueryObservable 使用的问题</a><time datetime="2016-12-21T11:16:18.000Z" title="Created 2016-12-21 19:16:18">2016-12-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2016/05/26/fix-while-loop-cpu-use-problem-md/" title="修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug">修复一例 BlockingQueue.poll 导致的线程While循环无限执行占用cpu的bug</a><time datetime="2016-05-26T08:19:27.000Z" title="Created 2016-05-26 16:19:27">2016-05-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2025 By kmfish</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
